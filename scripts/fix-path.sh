@@ -1,0 +1,1 @@
+sed -i 's|/_expo|_expo|g' dist/index.html
