@@ -18,11 +18,19 @@ export enum GPUTypes {
   B300 = 'B300',
 }
 
+export enum ResourceSubType {
+  CONSUMER_GPU = 'CONSUMER_GPU',
+  INDUSTRIAL_GPU = 'INDUSTRIAL_GPU',
+  SMALL_LLM = 'SMALL_LLM',
+  LARGE_LLM = 'LARGE_LLM',
+}
+
 export type ResourceGenerator = {
   name: string;
   description: string;
   generatesType: ResourceType;
   productionRate: number;
+  subType: ResourceSubType;
 }
 
 export type StoreEntry = {
@@ -38,25 +46,28 @@ export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = {
       description: 'Consumer GPU scavenged from a crypto mining rig.',
       generatesType: ResourceType.FLOPS,
       productionRate: 5,
+      subType: ResourceSubType.CONSUMER_GPU,
   },
   [GPUTypes.RTX4090]: {
       name: GPUTypes.RTX4090,
       description: 'An even more powerful GPU that\'s totally not a fire hazard.',
       generatesType: ResourceType.FLOPS,
       productionRate: 20,
+      subType: ResourceSubType.CONSUMER_GPU,
   },
-  
   [GPUTypes.A6000]: {
       name: GPUTypes.A6000,
       description: 'A GPU so expensive, you\'ll need a research grant just to look at it.',
       generatesType: ResourceType.FLOPS,
       productionRate: 100,
+      subType: ResourceSubType.INDUSTRIAL_GPU,
   },
   [GPUTypes.B300]: {
       name: GPUTypes.B300,
       description: 'It burns cash and watts faster than your AI can hallucinate.',
       generatesType: ResourceType.FLOPS,
       productionRate: 400.0,
+      subType: ResourceSubType.INDUSTRIAL_GPU,
   }
 }
 
@@ -65,6 +76,7 @@ const defaultResourceGenerator: ResourceGenerator = {
   description: 'placeholder description',
   generatesType: ResourceType.CASH,
   productionRate: 1.0,
+  subType: ResourceSubType.CONSUMER_GPU,
 }
 
 export const GPUs: StoreEntry[] = [
@@ -83,13 +95,13 @@ export const GPUs: StoreEntry[] = [
   {
     resource: GPUTypesTable[GPUTypes.A6000] || defaultResourceGenerator,
     costType: ResourceType.CASH,
-    cost: 300,
+    cost: 500,
     costMultiplier: 1.3,
   },
   {
     resource: GPUTypesTable[GPUTypes.B300] || defaultResourceGenerator,
     costType: ResourceType.CASH,
-    cost: 3000,
+    cost: 4500,
     costMultiplier: 1.4,
   }
 ]
@@ -100,24 +112,28 @@ export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = {
       description: 'You don\'t have to understand it, just git clone it',
       generatesType: ResourceType.CASH,
       productionRate: 1.5,
+      subType: ResourceSubType.SMALL_LLM,
     },
   [LLMTypes.GPT1]: {
       name: LLMTypes.GPT1,
       description: 'Word salad as a service.',
       generatesType: ResourceType.CASH,
       productionRate: 6,
+      subType: ResourceSubType.SMALL_LLM,
     },
     [LLMTypes.GPT2]: {
       name: LLMTypes.GPT2,
       description: '10x the parameters of GPT1, same amount of nonsense.',
       generatesType: ResourceType.CASH,
       productionRate: 30,
+      subType: ResourceSubType.LARGE_LLM,
     },
     [LLMTypes.CHATGPT]: {
       name: LLMTypes.CHATGPT,
       description: 'A chatbot that confidently makes things up while beating Stackoverflow at civility.',
       generatesType: ResourceType.CASH,
       productionRate: 120,
+      subType: ResourceSubType.LARGE_LLM,
     }
   }
 
@@ -137,7 +153,7 @@ export const LLMs: StoreEntry[] = [
   {
     resource: LLMTypeTable[LLMTypes.GPT2] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
-    cost: 1200,
+    cost: 2000,
     costMultiplier: 1.3,
   },
   {
@@ -157,6 +173,7 @@ export enum Researches {
   AttentionPaper = 'AttentionPaper',
   CrawlWebText = 'CrawlWebText',
   PirateWholeInternet = 'PirateWholeInternet',
+  Overclocking = 'Overclocking',
 }
 
 export type ResearchData = {
@@ -164,6 +181,21 @@ export type ResearchData = {
   description: string;
   gpuUnlock?: GPUTypes;
   llmUnlock?: LLMTypes;
+  efficiencyUpgrade?: EfficiencyUpgrade;
+}
+
+export enum EfficiencyType {
+  BaseCost = 'BASE_COST',
+  CostMultiplier = 'COST_MULTIPLIER',
+  ProductionRate = 'PRODUCTION_RATE',
+}
+
+export type EfficiencyUpgrade = {
+  affectedLLM?: LLMTypes;
+  affectedGPU?: GPUTypes;
+  affectedGenType?: ResourceSubType;
+  efficiencyType: EfficiencyType;
+  efficiency: number;
 }
 
 export type UnlockRequirement = {
@@ -221,6 +253,15 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     name: Researches.PirateWholeInternet,
     description: 'Stealing from everyone is like stealing from no one',
     llmUnlock: LLMTypes.CHATGPT,
+  },
+  [Researches.Overclocking]: {
+    name: Researches.Overclocking,
+    description: 'Push those RTXs till they smoke',
+    efficiencyUpgrade: {
+      affectedGenType: ResourceSubType.CONSUMER_GPU,
+      efficiencyType: EfficiencyType.ProductionRate,
+      efficiency: 0.05,
+    }
   }
 }
 
@@ -319,5 +360,11 @@ export const ResearchesTable: ResearchEntry[] = [
     costType: ResourceType.CASH,
     cost: 50000,
     unlock: flopsIncomeUnlock(300)
+  },
+  {
+    resource: ResearchTypeTable[Researches.Overclocking] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 1,
+    unlock: flopsIncomeUnlock(1)
   }
 ]

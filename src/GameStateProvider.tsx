@@ -44,20 +44,38 @@ type GameState = {
   generators: OwnedResource[];
 }
 
+const DEBUG: boolean = true;
 const initialState = (): GameState => {
+  if (DEBUG) {
     return {
-    saveTimer: 0,
-    cashTotal: Constants.startingCash,
-    cashRate: 0,
-    flopsTotal: 0,
-    flopsRate: 0,
-    totalCashSpent: 0,
-    totalFlopSpent: 0,
-    unlockedGPUs: [],
-    unlockedLLMs: [],
-    availableResearch: [],
-    purchasedResearch: [],
-    generators: [],
+      saveTimer: 0,
+      cashTotal: 1000,
+      cashRate: 0,
+      flopsTotal: 0,
+      flopsRate: 0,
+      totalCashSpent: 0,
+      totalFlopSpent: 0,
+      unlockedGPUs: [],
+      unlockedLLMs: [],
+      availableResearch: [],
+      purchasedResearch: [],
+      generators: [],
+    }
+  } else {
+    return {
+      saveTimer: 0,
+      cashTotal: Constants.startingCash,
+      cashRate: 0,
+      flopsTotal: 0,
+      flopsRate: 0,
+      totalCashSpent: 0,
+      totalFlopSpent: 0,
+      unlockedGPUs: [],
+      unlockedLLMs: [],
+      availableResearch: [],
+      purchasedResearch: [],
+      generators: [],
+    }
   }
 }
 
@@ -341,6 +359,8 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
     });
     // console.log(`generator type count is now ${generators.length}`);
   }
+
+  // const newFlopsRate = getFlopsRate(generators, purchasedResearch);
   return { 
         ...state, 
         cashTotal: newCash,
