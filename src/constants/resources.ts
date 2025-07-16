@@ -18,9 +18,11 @@ export enum GPUTypes {
   B300 = 'B300',
 }
 
-export enum ResourceSubType {
+export enum ResourceTypeTags {
+  GPU = 'GPU',
   CONSUMER_GPU = 'CONSUMER_GPU',
   INDUSTRIAL_GPU = 'INDUSTRIAL_GPU',
+  LLM = 'LLM',
   SMALL_LLM = 'SMALL_LLM',
   LARGE_LLM = 'LARGE_LLM',
 }
@@ -30,7 +32,7 @@ export type ResourceGenerator = {
   description: string;
   generatesType: ResourceType;
   productionRate: number;
-  subType: ResourceSubType;
+  tags: ResourceTypeTags[];
 }
 
 export type StoreEntry = {
@@ -46,28 +48,28 @@ export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = {
       description: 'Consumer GPU scavenged from a crypto mining rig.',
       generatesType: ResourceType.FLOPS,
       productionRate: 5,
-      subType: ResourceSubType.CONSUMER_GPU,
+      tags: [ResourceTypeTags.GPU, ResourceTypeTags.CONSUMER_GPU],
   },
   [GPUTypes.RTX4090]: {
       name: GPUTypes.RTX4090,
       description: 'An even more powerful GPU that\'s totally not a fire hazard.',
       generatesType: ResourceType.FLOPS,
       productionRate: 20,
-      subType: ResourceSubType.CONSUMER_GPU,
+      tags: [ResourceTypeTags.GPU, ResourceTypeTags.CONSUMER_GPU],
   },
   [GPUTypes.A6000]: {
       name: GPUTypes.A6000,
       description: 'A GPU so expensive, you\'ll need a research grant just to look at it.',
       generatesType: ResourceType.FLOPS,
       productionRate: 100,
-      subType: ResourceSubType.INDUSTRIAL_GPU,
+      tags: [ResourceTypeTags.GPU, ResourceTypeTags.INDUSTRIAL_GPU],
   },
   [GPUTypes.B300]: {
       name: GPUTypes.B300,
       description: 'It burns cash and watts faster than your AI can hallucinate.',
       generatesType: ResourceType.FLOPS,
       productionRate: 400.0,
-      subType: ResourceSubType.INDUSTRIAL_GPU,
+      tags: [ResourceTypeTags.GPU, ResourceTypeTags.INDUSTRIAL_GPU],
   }
 }
 
@@ -76,7 +78,7 @@ const defaultResourceGenerator: ResourceGenerator = {
   description: 'placeholder description',
   generatesType: ResourceType.CASH,
   productionRate: 1.0,
-  subType: ResourceSubType.CONSUMER_GPU,
+  tags: [ResourceTypeTags.GPU],
 }
 
 export const GPUs: StoreEntry[] = [
@@ -112,28 +114,28 @@ export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = {
       description: 'You don\'t have to understand it, just git clone it',
       generatesType: ResourceType.CASH,
       productionRate: 1.5,
-      subType: ResourceSubType.SMALL_LLM,
+      tags: [ResourceTypeTags.LLM, ResourceTypeTags.SMALL_LLM],
     },
   [LLMTypes.GPT1]: {
       name: LLMTypes.GPT1,
       description: 'Word salad as a service.',
       generatesType: ResourceType.CASH,
       productionRate: 6,
-      subType: ResourceSubType.SMALL_LLM,
+      tags: [ResourceTypeTags.LLM, ResourceTypeTags.SMALL_LLM],
     },
     [LLMTypes.GPT2]: {
       name: LLMTypes.GPT2,
       description: '10x the parameters of GPT1, same amount of nonsense.',
       generatesType: ResourceType.CASH,
       productionRate: 30,
-      subType: ResourceSubType.LARGE_LLM,
+      tags: [ResourceTypeTags.LLM, ResourceTypeTags.LARGE_LLM],
     },
     [LLMTypes.CHATGPT]: {
       name: LLMTypes.CHATGPT,
       description: 'A chatbot that confidently makes things up while beating Stackoverflow at civility.',
       generatesType: ResourceType.CASH,
       productionRate: 120,
-      subType: ResourceSubType.LARGE_LLM,
+      tags: [ResourceTypeTags.LLM, ResourceTypeTags.LARGE_LLM],
     }
   }
 
@@ -193,7 +195,7 @@ export enum EfficiencyType {
 export type EfficiencyUpgrade = {
   affectedLLM?: LLMTypes;
   affectedGPU?: GPUTypes;
-  affectedGenType?: ResourceSubType;
+  affectedTags?: ResourceTypeTags;
   efficiencyType: EfficiencyType;
   efficiency: number;
 }
@@ -258,7 +260,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     name: Researches.Overclocking,
     description: 'Push those RTXs till they smoke',
     efficiencyUpgrade: {
-      affectedGenType: ResourceSubType.CONSUMER_GPU,
+      affectedTags: ResourceTypeTags.CONSUMER_GPU,
       efficiencyType: EfficiencyType.ProductionRate,
       efficiency: 0.05,
     }

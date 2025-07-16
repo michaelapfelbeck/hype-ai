@@ -10,7 +10,10 @@ import {
   ResearchesTable, 
   ResourceGenerator, 
   ResearchEntry,
-  UnlockRequirement
+  UnlockRequirement,
+  ResearchData,
+  ResearchTypeTable,
+  EfficiencyType
 } from './constants/resources';
 
 type OwnedResource = {
@@ -303,7 +306,7 @@ const canAfford = (costType: ResourceType, cost: number, state: GameState): bool
 }
 
 const buyResource = (state: GameState, entry: StoreEntry, count: number): GameState => {
-  let { cashTotal, flopsTotal, generators, totalCashSpent, totalFlopSpent } = state;
+  let { cashTotal, flopsTotal, generators, totalCashSpent, totalFlopSpent, purchasedResearch } = state;
   const currCount = getNumberOwned(generators, entry);
   const totalCost = calcPrice(currCount, entry.cost, entry.costMultiplier, count);
 
@@ -360,7 +363,7 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
     // console.log(`generator type count is now ${generators.length}`);
   }
 
-  // const newFlopsRate = getFlopsRate(generators, purchasedResearch);
+  const newFlopsRate = getProductionRate(ResourceType.FLOPS, generators, purchasedResearch);
   return { 
         ...state, 
         cashTotal: newCash,
@@ -368,9 +371,42 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
         totalCashSpent: totalCashSpent,
         totalFlopSpent: totalFlopSpent,
         cashRate: state.cashRate + addedCashRate,
-        flopsRate: state.flopsRate + addedFlopsRate,
+        flopsRate: newFlopsRate,
         generators: generators,
       };
+}
+
+const getProductionRate = (resourceType: ResourceType, generators: OwnedResource[], purchasedResearch: Researches[]): number => {
+  console.log('getProductionRate called with resourceType:', resourceType);
+  console.log('purchased researches:', purchasedResearch);
+  let filteredGenerators = generators.filter((g) => g.resource.generatesType == resourceType);
+  let filteredResearch: ResearchData[] = purchasedResearch
+    .map((r) => ResearchTypeTable[r])
+    .filter((rd): rd is ResearchData => rd !== undefined)
+    .filter((rd) => rd.efficiencyUpgrade && rd.efficiencyUpgrade.efficiencyType == EfficiencyType.ProductionRate);
+  if (filteredResearch.length > 0){
+    console.log("you bought an upgrade!");
+  }
+
+  let totalProduction: number = 0
+  for (const generator of filteredGenerators) {
+    totalProduction += generator.count * generator.resource.productionRate;
+    let efficiencyMultiplier: number = 0;
+    for (const research of filteredResearch) {
+      if (research.efficiencyUpgrade?.affectedGPU == generator.resource.name || 
+          research.efficiencyUpgrade?.affectedLLM == generator.resource.name ||
+          (research.efficiencyUpgrade?.affectedTags !== undefined &&
+            generator.resource.tags.includes(research.efficiencyUpgrade.affectedTags))) {
+        efficiencyMultiplier += research.efficiencyUpgrade.efficiency;
+      }
+    }
+    totalProduction = getProductionEfficiency(totalProduction, efficiencyMultiplier);
+  }
+  return totalProduction;
+}
+
+const getProductionEfficiency = (base: number, efficiency: number): number => {
+  return base * (1 + efficiency);
 }
 
 const getNumberOwned = (generators: OwnedResource[], storeEntry: StoreEntry): number => {
