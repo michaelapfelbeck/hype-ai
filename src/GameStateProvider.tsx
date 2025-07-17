@@ -54,7 +54,7 @@ const initialState = (): GameState => {
       saveTimer: 0,
       cashTotal: 1000,
       cashRate: 0,
-      flopsTotal: 0,
+      flopsTotal: 1000,
       flopsRate: 0,
       totalCashSpent: 0,
       totalFlopSpent: 0,
@@ -283,6 +283,10 @@ const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
   if (entry.resource.llmUnlock) {
     llms.push(entry.resource.llmUnlock);
   }
+  
+  let newCashRate = getProductionRate(ResourceType.CASH, state.generators, researches);
+  let newFlopsRate = getProductionRate(ResourceType.FLOPS, state.generators, researches);
+
   return {...state, 
     cashTotal: newCash, 
     flopsTotal: newFlops,
@@ -290,7 +294,10 @@ const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
     purchasedResearch: researches, 
     availableResearch: availableResearch, 
     unlockedGPUs: gpus, 
-    unlockedLLMs: llms};
+    unlockedLLMs: llms,
+    cashRate: newCashRate,
+    flopsRate: newFlopsRate
+  };
 }
 
 const canAfford = (costType: ResourceType, cost: number, state: GameState): boolean => {
@@ -312,8 +319,7 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
 
   let newCash = cashTotal;
   let newFlops = flopsTotal;
-  let addedCashRate = 0;
-  let addedFlopsRate = 0;
+
   switch (entry.costType) {
     case ResourceType.CASH:
       if (cashTotal < totalCost) {
@@ -339,18 +345,6 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
       return state;
   }
 
-  switch (entry.resource.generatesType) {
-    case ResourceType.CASH:
-      addedCashRate = entry.resource.productionRate * count;
-      break;
-    case ResourceType.FLOPS:
-      addedFlopsRate = entry.resource.productionRate * count;
-      break;
-    default:
-      console.log("error: unknown generates type", entry.resource.generatesType);
-      return state;
-  }
-
   const result:number = generators.findIndex((g) => g.resource.name == entry.resource.name);
   if (result >= 0) {
     generators[result].count += count;
@@ -364,29 +358,25 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
   }
 
   const newFlopsRate = getProductionRate(ResourceType.FLOPS, generators, purchasedResearch);
+  const newCashRate = getProductionRate(ResourceType.CASH, generators, purchasedResearch);
   return { 
         ...state, 
         cashTotal: newCash,
         flopsTotal: newFlops,
         totalCashSpent: totalCashSpent,
         totalFlopSpent: totalFlopSpent,
-        cashRate: state.cashRate + addedCashRate,
+        cashRate: newCashRate,
         flopsRate: newFlopsRate,
         generators: generators,
       };
 }
 
 const getProductionRate = (resourceType: ResourceType, generators: OwnedResource[], purchasedResearch: Researches[]): number => {
-  console.log('getProductionRate called with resourceType:', resourceType);
-  console.log('purchased researches:', purchasedResearch);
   let filteredGenerators = generators.filter((g) => g.resource.generatesType == resourceType);
   let filteredResearch: ResearchData[] = purchasedResearch
     .map((r) => ResearchTypeTable[r])
     .filter((rd): rd is ResearchData => rd !== undefined)
     .filter((rd) => rd.efficiencyUpgrade && rd.efficiencyUpgrade.efficiencyType == EfficiencyType.ProductionRate);
-  if (filteredResearch.length > 0){
-    console.log("you bought an upgrade!");
-  }
 
   let totalProduction: number = 0
   for (const generator of filteredGenerators) {

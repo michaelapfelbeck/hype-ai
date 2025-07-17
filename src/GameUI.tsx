@@ -59,6 +59,7 @@ const GameUI = (): React.JSX.Element => {
         description: 'Placeholder',
         generatesType: ResourceType.CASH,
         productionRate: 1,
+        tags: [],
       },
       costType: ResourceType.FLOPS,
       cost: 1,
@@ -73,6 +74,7 @@ const GameUI = (): React.JSX.Element => {
         description: 'Placeholder',
         generatesType: ResourceType.FLOPS,
         productionRate: 1,
+        tags: [],
       },
       costType: ResourceType.CASH,
       cost: 1,
@@ -116,7 +118,7 @@ const GameUI = (): React.JSX.Element => {
         <View style={sharedStyles.segmentHeaderSeperator}/>
         <Text>Cash/s: ${gameState.cashRate.toFixed(2)}</Text>
         <Text>Cash: ${gameState.cashTotal.toFixed(2)}</Text>
-        <Text>Flops/s: {gameState.flopsRate}</Text>
+        <Text>Flops/s: {gameState.flopsRate.toFixed(2)}</Text>
         <Text>Total Flops {gameState.flopsTotal.toFixed(0)}</Text>
       </View>
       {
