@@ -85,7 +85,7 @@ export const GPUs: StoreEntry[] = [
   {
     resource: GPUTypesTable[GPUTypes.RTX3090] || defaultResourceGenerator,
     costType: ResourceType.CASH,
-    cost: 10,
+    cost: 8,
     costMultiplier: 0.2,
   },
   {
@@ -348,7 +348,7 @@ export const ResearchesTable: ResearchEntry[] = [
   {
     resource: ResearchTypeTable[Researches.ScavengeWeb3] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
-    cost: 3,
+    cost: 2,
     unlock: cashTotalUnlock(1)
   },
   {
@@ -396,8 +396,8 @@ export const ResearchesTable: ResearchEntry[] = [
   {
     resource: ResearchTypeTable[Researches.Overclocking] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
-    cost: 1,
-    unlock: flopsIncomeUnlock(1)
+    cost: 100,
+    unlock: flopsIncomeUnlock(20)
   },
   {
     resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
