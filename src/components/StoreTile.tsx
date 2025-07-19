@@ -51,7 +51,7 @@ type StoreTileProps = PropsWithChildren<{
 }>
 
 const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
-  const { cashTotal, flopsTotal, generators } = useGameState();
+  const { cashTotal, flopsTotal, generators, purchasedResearch } = useGameState();
 
   const getNumberOwned = (): number => {
     const result = generators.find((g) => g.resource.name == entry.resource.name);

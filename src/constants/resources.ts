@@ -178,6 +178,7 @@ export enum Researches {
   Overclocking = 'Overclocking',
   BulkDiscounts = 'BulkDiscounts',
   CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
+  AgenticWorkflows = 'AgenticWorkflows',
 }
 
 export type ResearchData = {
@@ -283,6 +284,15 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
       affectedTags: ResourceTypeTags.LLM,
       efficiencyType: EfficiencyType.CostMultiplier,
       efficiency: 0.15,
+    }
+  },
+  [Researches.AgenticWorkflows]: {
+    name: Researches.AgenticWorkflows,
+    description: 'Mumble mumble agents mumble',
+    efficiencyUpgrade: {
+      affectedTags: ResourceTypeTags.LLM,
+      efficiencyType: EfficiencyType.ProductionRate,
+      efficiency: 0.2,
     }
   }
 }
@@ -393,12 +403,18 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 200,
-    unlock: cashSpentUnlock(500)
+    unlock: cashSpentUnlock(1)//(500)
   },
   {
     resource: ResearchTypeTable[Researches.CopyDeepSeeksHomework] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 1000,
-    unlock: flopsSpentUnlock(1000)
+    unlock: flopsSpentUnlock(1)//(1000)
+  },
+  {
+    resource: ResearchTypeTable[Researches.AgenticWorkflows] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 1000,
+    unlock: flopsSpentUnlock(1)//(2000)
   }
 ]

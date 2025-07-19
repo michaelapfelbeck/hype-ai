@@ -1,6 +1,10 @@
 import React, { createContext, useReducer, useMemo, useEffect } from 'react';
 import Constants from './constants/constants';
-import { calcPrice } from './helpers';
+import { calcPrice, 
+  researchEffectsGenerator, 
+  getProductionWithMultiplier, 
+  getEfficiencyResearchesOfType 
+} from './helpers';
 import { 
   ResourceType, 
   StoreEntry, 
@@ -373,30 +377,27 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
 
 const getProductionRate = (resourceType: ResourceType, generators: OwnedResource[], purchasedResearch: Researches[]): number => {
   let filteredGenerators = generators.filter((g) => g.resource.generatesType == resourceType);
-  let filteredResearch: ResearchData[] = purchasedResearch
-    .map((r) => ResearchTypeTable[r])
-    .filter((rd): rd is ResearchData => rd !== undefined)
-    .filter((rd) => rd.efficiencyUpgrade && rd.efficiencyUpgrade.efficiencyType == EfficiencyType.ProductionRate);
+  let filteredResearch: ResearchData[] = getEfficiencyResearchesOfType(EfficiencyType.ProductionRate, purchasedResearch);
 
   let totalProduction: number = 0
   for (const generator of filteredGenerators) {
     totalProduction += generator.count * generator.resource.productionRate;
-    let efficiencyMultiplier: number = 0;
-    for (const research of filteredResearch) {
-      if (research.efficiencyUpgrade?.affectedGPU == generator.resource.name || 
-          research.efficiencyUpgrade?.affectedLLM == generator.resource.name ||
-          (research.efficiencyUpgrade?.affectedTags !== undefined &&
-            generator.resource.tags.includes(research.efficiencyUpgrade.affectedTags))) {
-        efficiencyMultiplier += research.efficiencyUpgrade.efficiency;
-      }
-    }
-    totalProduction = getProductionEfficiency(totalProduction, efficiencyMultiplier);
+    let productionMultiplier: number = 0;
+
+    productionMultiplier = getProductionMultiplier(generator, filteredResearch);
+    totalProduction = getProductionWithMultiplier(totalProduction, productionMultiplier);
   }
   return totalProduction;
 }
 
-const getProductionEfficiency = (base: number, efficiency: number): number => {
-  return base * (1 + efficiency);
+const getProductionMultiplier = (generator: OwnedResource, filteredResearch: ResearchData[]): number => {
+  let productionMultiplier = 0;
+  for (const research of filteredResearch) {
+    if (researchEffectsGenerator(research, generator.resource) && research.efficiencyUpgrade) {
+      productionMultiplier += research.efficiencyUpgrade.efficiency;
+    }
+  }
+  return productionMultiplier;
 }
 
 const getNumberOwned = (generators: OwnedResource[], storeEntry: StoreEntry): number => {
