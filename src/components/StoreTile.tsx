@@ -79,7 +79,7 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
         break;
     }
 
-    let totalCost = calcPrice(currCount, entry.cost, entry.costMultiplier, count);
+    let totalCost = calcPrice(currCount, entry, count, purchasedResearch);
     return currAmount >= totalCost;
   }
 
@@ -95,11 +95,15 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
     return '';
   }
 
+  const getCostForCount = (count: number): number => {
+    return calcPrice(getNumberOwned(), entry, count, purchasedResearch);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Count: {getNumberOwned()}</Text>
-      <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString(calcPrice(getNumberOwned(), entry.cost, entry.costMultiplier, 1))}</Text>
+      <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString(getCostForCount(1))}</Text>
       <Text style={[styles.descriptionText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={4}>{entry.resource.description}</Text>
       <View style={styles.horizontalButtonContainer}>
         <TouchableOpacity 

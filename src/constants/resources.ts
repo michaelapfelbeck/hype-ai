@@ -86,25 +86,25 @@ export const GPUs: StoreEntry[] = [
     resource: GPUTypesTable[GPUTypes.RTX3090] || defaultResourceGenerator,
     costType: ResourceType.CASH,
     cost: 10,
-    costMultiplier: 1.2,
+    costMultiplier: 0.2,
   },
   {
     resource: GPUTypesTable[GPUTypes.RTX4090] || defaultResourceGenerator,
     costType: ResourceType.CASH,
     cost: 50,
-    costMultiplier: 1.25,
+    costMultiplier: 0.25,
   },
   {
     resource: GPUTypesTable[GPUTypes.A6000] || defaultResourceGenerator,
     costType: ResourceType.CASH,
     cost: 500,
-    costMultiplier: 1.3,
+    costMultiplier: 0.3,
   },
   {
     resource: GPUTypesTable[GPUTypes.B300] || defaultResourceGenerator,
     costType: ResourceType.CASH,
     cost: 4500,
-    costMultiplier: 1.4,
+    costMultiplier: 0.4,
   }
 ]
 
@@ -144,25 +144,25 @@ export const LLMs: StoreEntry[] = [
     resource: LLMTypeTable[LLMTypes.ALEXNET] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
     cost: 40,
-    costMultiplier: 1.2,
+    costMultiplier: 0.2,
   },
   {
     resource: LLMTypeTable[LLMTypes.GPT1] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
     cost: 200,
-    costMultiplier: 1.25,
+    costMultiplier: 0.25,
   },
   {
     resource: LLMTypeTable[LLMTypes.GPT2] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
     cost: 2000,
-    costMultiplier: 1.3,
+    costMultiplier: 0.3,
   },
   {
     resource: LLMTypeTable[LLMTypes.CHATGPT] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
     cost: 10000,
-    costMultiplier: 1.4,
+    costMultiplier: 0.4,
   }
 ]
 
@@ -190,7 +190,7 @@ export type ResearchData = {
 }
 
 export enum EfficiencyType {
-  BaseCost = 'BASE_COST',
+  // BaseCost = 'BASE_COST',
   CostMultiplier = 'COST_MULTIPLIER',
   ProductionRate = 'PRODUCTION_RATE',
 }
@@ -403,18 +403,18 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 200,
-    unlock: cashSpentUnlock(1)//(500)
+    unlock: cashSpentUnlock(500)
   },
   {
     resource: ResearchTypeTable[Researches.CopyDeepSeeksHomework] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 1000,
-    unlock: flopsSpentUnlock(1)//(1000)
+    unlock: flopsSpentUnlock(1000)
   },
   {
     resource: ResearchTypeTable[Researches.AgenticWorkflows] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 1000,
-    unlock: flopsSpentUnlock(1)//(2000)
+    unlock: flopsSpentUnlock(2000)
   }
 ]

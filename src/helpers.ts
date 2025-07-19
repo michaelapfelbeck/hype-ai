@@ -3,15 +3,22 @@ import {
   ResourceGenerator, 
   EfficiencyType, 
   Researches, 
-  ResearchTypeTable 
+  ResearchTypeTable,
+  StoreEntry
 } from './constants/resources';
 
-export const calcPrice = (owned: number, baseCost: number, costMultiplier: number, count: number): number => {
-  if (count === 0) {
-    return baseCost * Math.pow(costMultiplier, owned);
+export const calcPrice = (owned: number, entry: StoreEntry, count: number, purchasedResearch: Researches[] = []): number => {
+  const filteredResearches = getEfficiencyResearchesOfType(EfficiencyType.CostMultiplier, purchasedResearch).filter((r) => researchEffectsGenerator(r, entry.resource));
+  let finalMultiplier = entry.costMultiplier;
+  if (filteredResearches.length > 0) {
+    const costEfficiency: number = filteredResearches.reduce((acc, r) => acc + (r.efficiencyUpgrade?.efficiency ?? 0), 0);
+    finalMultiplier = getCostReduction(entry.costMultiplier, costEfficiency);
+  }
+  if (count === 1) {
+    return entry.cost * Math.pow(1 + finalMultiplier, owned);
   } else {
     let finalCount = owned + count;
-    return baseCost * (finalCount* Math.pow(costMultiplier, finalCount - 1) - owned * Math.pow(costMultiplier, owned - 1));
+    return entry.cost * (finalCount * Math.pow(1 + finalMultiplier, finalCount - 1) - owned * Math.pow(1 + finalMultiplier, owned - 1));
   }
 }
 

@@ -51,7 +51,7 @@ type GameState = {
   generators: OwnedResource[];
 }
 
-const DEBUG: boolean = true;
+const DEBUG: boolean = false;
 const initialState = (): GameState => {
   if (DEBUG) {
     return {
@@ -319,7 +319,7 @@ const canAfford = (costType: ResourceType, cost: number, state: GameState): bool
 const buyResource = (state: GameState, entry: StoreEntry, count: number): GameState => {
   let { cashTotal, flopsTotal, generators, totalCashSpent, totalFlopSpent, purchasedResearch } = state;
   const currCount = getNumberOwned(generators, entry);
-  const totalCost = calcPrice(currCount, entry.cost, entry.costMultiplier, count);
+  const totalCost = calcPrice(currCount, entry, count, purchasedResearch);
 
   let newCash = cashTotal;
   let newFlops = flopsTotal;
