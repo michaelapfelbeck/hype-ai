@@ -176,6 +176,8 @@ export enum Researches {
   CrawlWebText = 'CrawlWebText',
   PirateWholeInternet = 'PirateWholeInternet',
   Overclocking = 'Overclocking',
+  BulkDiscounts = 'BulkDiscounts',
+  CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
 }
 
 export type ResearchData = {
@@ -263,6 +265,24 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
       affectedTags: ResourceTypeTags.CONSUMER_GPU,
       efficiencyType: EfficiencyType.ProductionRate,
       efficiency: 0.05,
+    }
+  },
+  [Researches.BulkDiscounts]: {
+    name: Researches.BulkDiscounts,
+    description: 'Save money on GPUs by buying more GPUs.',
+    efficiencyUpgrade: {
+      affectedTags: ResourceTypeTags.GPU,
+      efficiencyType: EfficiencyType.CostMultiplier,
+      efficiency: 0.1,
+    }
+  },
+  [Researches.CopyDeepSeeksHomework]: {
+    name: Researches.CopyDeepSeeksHomework,
+    description: 'We just happened to figure out everything DeepSeek did, too.',
+    efficiencyUpgrade: {
+      affectedTags: ResourceTypeTags.LLM,
+      efficiencyType: EfficiencyType.CostMultiplier,
+      efficiency: 0.15,
     }
   }
 }
@@ -368,5 +388,17 @@ export const ResearchesTable: ResearchEntry[] = [
     costType: ResourceType.CASH,
     cost: 1,
     unlock: flopsIncomeUnlock(1)
+  },
+  {
+    resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 200,
+    unlock: cashSpentUnlock(500)
+  },
+  {
+    resource: ResearchTypeTable[Researches.CopyDeepSeeksHomework] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 1000,
+    unlock: flopsSpentUnlock(1000)
   }
 ]
