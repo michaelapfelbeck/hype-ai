@@ -1,7 +1,6 @@
 ## Known bugs:
 - Business summary text wobbles slightly as string lengths change
 - Title text gets cut-off on mobile sometimes
-- Description text gets cut-off on mobile sometimes
 - Background color changes in itch.io fullscreen
 
 ## Feature Ideas
@@ -9,7 +8,8 @@
 - 'Linkedin lunatic' post button
 - Newsfeed
 - Change # display based on value, e.g. display $4,123,123 and $4.1M
-- Scrap early item for one-time bonus/start pahse 2
+- Scrap early item for one-time bonus/start phase 2
+- Make buttons react to mouse hover
 
 ## Research ideas
 - Tells you income of items

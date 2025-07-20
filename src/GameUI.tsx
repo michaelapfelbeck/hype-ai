@@ -110,7 +110,7 @@ const GameUI = (): React.JSX.Element => {
         <TouchableOpacity 
         style={sharedStyles.buttonLarge}
         onPress={() => {addCash(1)}}>
-          <Text>Panhandle</Text>
+          <Text style={sharedStyles.buttonTextLarge}>Angel Investment</Text>
         </TouchableOpacity>
       </View>
       <View style={sharedStyles.uiSegmentContainer}>
@@ -149,7 +149,7 @@ const GameUI = (): React.JSX.Element => {
         <TouchableOpacity 
         style={sharedStyles.buttonLarge} 
         onPress={reset}>
-          <Text>Reset</Text>
+          <Text style={sharedStyles.buttonTextLarge}>Reset</Text>
         </TouchableOpacity>
       </View>
     </View>
