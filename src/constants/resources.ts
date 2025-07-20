@@ -367,7 +367,7 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.BribeNvidia] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 30000,
-    unlock: cashIncomeUnlock(100)
+    unlock: cashIncomeUnlock(200)
   },
   {
     resource: ResearchTypeTable[Researches.CopyAlexNet] || defaultResearchEntry.resource,
@@ -385,13 +385,13 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.CrawlWebText] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 10000,
-    unlock: flopsIncomeUnlock(250)
+    unlock: flopsIncomeUnlock(200)
   },
   {
     resource: ResearchTypeTable[Researches.PirateWholeInternet] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 50000,
-    unlock: flopsIncomeUnlock(300)
+    unlock: flopsIncomeUnlock(400)
   },
   {
     resource: ResearchTypeTable[Researches.Overclocking] || defaultResearchEntry.resource,
