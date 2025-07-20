@@ -69,7 +69,7 @@ export const sharedStyles = StyleSheet.create({
     fontSize: 20,
     color: '#FFFFFF',
   },
-  buttonTexSmall: {
+  buttonTextSmall: {
     color: '#FFFFFF',
     fontSize: 12,
   },

@@ -11,6 +11,7 @@ import { useGameState, useGameDispatch } from './GameStateProvider';
 import { LLMTypes, ResourceType, StoreEntry, LLMs, GPUTypes, GPUs, Researches, ResearchesTable, ResearchEntry} from './constants/resources';
 import StoreTileContainer from './components/StoreTileContainer';
 import ResearchTileContainer from './components/ResearchTileContainer';
+import GameButton, { ButtonSize } from './components/GameButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -107,11 +108,11 @@ const GameUI = (): React.JSX.Element => {
       <View style={sharedStyles.uiSegmentContainer}>
         <Text style={sharedStyles.headlineText}>{gameState.startupName}.AI</Text>
         <Text style={sharedStyles.subHeadingText}>Total Spent: ${gameState.totalCashSpent.toLocaleString(undefined, {maximumFractionDigits: 2})}</Text>
-        <TouchableOpacity 
-        style={sharedStyles.buttonLarge}
-        onPress={() => {addCash(1)}}>
-          <Text style={sharedStyles.buttonTextLarge}>Angel Investment</Text>
-        </TouchableOpacity>
+        <GameButton 
+          size={ButtonSize.Large}
+          label="Angel Investment"
+          onPress={() => {addCash(1)}}
+        />
       </View>
       <View style={sharedStyles.uiSegmentContainer}>
         <Text style={sharedStyles.segmentHeaderText}>Business</Text>
@@ -146,11 +147,11 @@ const GameUI = (): React.JSX.Element => {
         />
       }
       <View style={sharedStyles.uiSegmentContainer}>
-        <TouchableOpacity 
-        style={sharedStyles.buttonLarge} 
-        onPress={reset}>
-          <Text style={sharedStyles.buttonTextLarge}>Reset</Text>
-        </TouchableOpacity>
+        <GameButton 
+          size={ButtonSize.Large}
+          label="Reset"
+          onPress={reset}
+        />
       </View>
     </View>
   );

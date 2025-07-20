@@ -93,7 +93,7 @@ const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element =>
           onPress={() => onClick(entry)}
           disabled={canBuy() ? false : true}
         >
-          <Text style={sharedStyles.buttonTexSmall} numberOfLines={1} >Buy</Text>
+          <Text style={sharedStyles.buttonTextSmall} numberOfLines={1} >Buy</Text>
         </TouchableOpacity>
       </View>
     </View>

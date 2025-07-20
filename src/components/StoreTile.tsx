@@ -9,6 +9,7 @@ import { ResourceType, StoreEntry } from '../constants/resources';
 import { useGameState } from '../GameStateProvider';
 import { calcPrice } from '../helpers';
 import { sharedStyles } from '../styles';
+import GameButton, { ButtonSize } from './GameButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -106,20 +107,18 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString(getCostForCount(1))}</Text>
       <Text style={[styles.descriptionText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={4}>{entry.resource.description}</Text>
       <View style={styles.horizontalButtonContainer}>
-        <TouchableOpacity 
-          style={[sharedStyles.buttonSmall, canBuy(1) ? {} : sharedStyles.buttonDisabled]} 
+        <GameButton 
+          size={ButtonSize.Small}
+          label="Buy 1"
           onPress={() => onClick(entry, 1)}
-          disabled={canBuy(1) ? false : true}
-        >
-          <Text style={sharedStyles.buttonTexSmall} numberOfLines={1} >Buy 1</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[sharedStyles.buttonSmall, canBuy(10) ? {} : sharedStyles.buttonDisabled]} 
+          disabled={!canBuy(1)}
+        />
+        <GameButton 
+          size={ButtonSize.Small}
+          label="Buy 10"
           onPress={() => onClick(entry, 10)}
-          disabled={canBuy(10) ? false : true}
-        >
-          <Text style={sharedStyles.buttonTexSmall}>Buy 10</Text>
-        </TouchableOpacity>
+          disabled={!canBuy(10)}
+        />
       </View>
     </View>
   );
