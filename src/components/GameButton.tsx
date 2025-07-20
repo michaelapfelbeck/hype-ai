@@ -1,4 +1,7 @@
-import React, { PropsWithChildren } from 'react';
+import React, { 
+  PropsWithChildren, 
+  useState 
+} from 'react';
 import { 
   Text, 
   TouchableOpacity,
@@ -18,6 +21,8 @@ type GameButtonProps = PropsWithChildren<{
 }>
 
 const GameButton = ({size, label = '', disabled = false, onPress}: GameButtonProps): React.JSX.Element => {
+  const [hovered, setHovered] = useState(false);
+
   const buttonStyle = () => {
     let result = {};
     switch (size) {
@@ -32,6 +37,17 @@ const GameButton = ({size, label = '', disabled = false, onPress}: GameButtonPro
     }
     if (disabled) {
       result = [result, sharedStyles.buttonDisabled];
+    } else if (hovered) {
+      switch (size) {
+        case ButtonSize.Small:
+          result = [result, sharedStyles.buttonSmallHover];
+          break;
+        case ButtonSize.Large:
+          result = [result, sharedStyles.buttonLargeHover];
+          break;
+        default:
+          break;
+      }
     }
     return result;
   }
@@ -55,13 +71,18 @@ const GameButton = ({size, label = '', disabled = false, onPress}: GameButtonPro
   }
 
   return (
-    <TouchableOpacity 
-      style={buttonStyle()}
-      onPress={onPress}
-      disabled={disabled}
+    <div 
+      onMouseEnter={() => {setHovered(true)}}
+      onMouseLeave={() => {setHovered(false)}}
     >
-      <Text style={labelStyle()} numberOfLines={1}>{label}</Text>
-    </TouchableOpacity>
+      <TouchableOpacity 
+        style={buttonStyle()}
+        onPress={onPress}
+        disabled={disabled}
+      >
+        <Text style={labelStyle()} numberOfLines={1}>{label}</Text>
+      </TouchableOpacity>
+    </div>
   );
 }
 

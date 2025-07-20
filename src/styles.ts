@@ -49,6 +49,12 @@ export const sharedStyles = StyleSheet.create({
     elevation: 2,
     boxShadow: '2px 2px 3px rgba(0,0,0,0.5)',
   },
+  buttonLargeHover: {
+    paddingVertical: 9,
+    paddingHorizontal: 18,
+    marginBottom: 8,
+    boxShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+  },
   buttonSmall: {
     alignItems: 'center',
     backgroundColor: '#8888FF',
@@ -59,6 +65,13 @@ export const sharedStyles = StyleSheet.create({
     borderRadius: 5,
     elevation: 2,
     boxShadow: '1px 1px 2px rgba(0,0,0,0.2)',
+  },
+  buttonSmallHover: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginBottom: 8,
+    marginHorizontal: 2,
+    boxShadow: '1px 1px 2px rgba(0,0,0,0.5)',
   },
   buttonDisabled: {
     backgroundColor: '#DDDDDD',
