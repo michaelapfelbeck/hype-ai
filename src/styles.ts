@@ -2,6 +2,8 @@ import {
   StyleSheet, 
 } from 'react-native';
 
+const borderColor = '#CCCCCC';
+
 export const sharedStyles = StyleSheet.create({
   headlineText: {
     fontSize: 30,
@@ -21,12 +23,16 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
     padding: 8,
     borderRadius: 4,
-    borderColor: '#e0e0e0',
+    borderColor: borderColor,
     borderWidth: 1,
   },
   segmentHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  segmentDescriptionText: {
+    fontSize: 12,
+    color: '#666666',
   },
   segmentHeaderSeperator: {
     height: 1,

@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
 
 type StoreTileContainerProps = PropsWithChildren<{
     name: string;
+    description?: string;
     entries: StoreEntry[];
     columnCount?: number;
 }>
 
-const StoreTileContainer = ({name, entries, columnCount = 3}: StoreTileContainerProps): React.JSX.Element => {
+const StoreTileContainer = ({name, description, entries, columnCount = 3}: StoreTileContainerProps): React.JSX.Element => {
   const { buyResource } = useGameDispatch();
   
   function padData<T>(data: T[], numColumns: number): (T | null)[] {
@@ -51,6 +52,7 @@ const StoreTileContainer = ({name, entries, columnCount = 3}: StoreTileContainer
   return (
     <View style={sharedStyles.uiTileContainer}>
       <Text style={sharedStyles.segmentHeaderText}>{name}</Text>
+      { description && <Text style={sharedStyles.segmentDescriptionText}>{description}</Text> }
       <View style={sharedStyles.segmentHeaderSeperator}/>
       <View style={sharedStyles.tileContainer}>
         <FlatList

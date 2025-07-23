@@ -119,13 +119,14 @@ const GameUI = (): React.JSX.Element => {
         <View style={sharedStyles.segmentHeaderSeperator}/>
         <Text>Cash/s: ${gameState.cashRate.toFixed(2)}</Text>
         <Text>Cash: ${gameState.cashTotal.toFixed(2)}</Text>
-        <Text>Flops/s: {gameState.flopsRate.toFixed(2)}</Text>
-        <Text>Total Flops {gameState.flopsTotal.toFixed(0)}</Text>
+        <Text>Compute/s: {gameState.flopsRate.toFixed(2)}</Text>
+        <Text>Total Compute: {gameState.flopsTotal.toFixed(0)}</Text>
       </View>
       {
         gameState.unlockedGPUs.length > 0 &&
         <StoreTileContainer 
           name="IT Hardware"
+          description="GPUs generate compute power used to train AI models."
           columnCount={getStoreWidth()}
           entries={gameState.unlockedGPUs.map((gpu) => getGPUStoreData(gpu))}
         />
@@ -134,6 +135,7 @@ const GameUI = (): React.JSX.Element => {
         gameState.unlockedLLMs.length > 0 &&
         <StoreTileContainer 
           name="Development"
+          description="Large Language Models (LLMs) generate cash used to fund your startup."
           columnCount={getStoreWidth()}
           entries={gameState.unlockedLLMs.map((llm) => getLLMStoreData(llm))}
         />
