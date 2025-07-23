@@ -118,10 +118,18 @@ const GameUI = (): React.JSX.Element => {
       <View style={sharedStyles.uiSegmentContainer}>
         <Text style={sharedStyles.segmentHeaderText}>Business</Text>
         <View style={sharedStyles.segmentHeaderSeperator}/>
-        <Text>Cash/s: ${gameState.cashRate.toFixed(2)}</Text>
-        <Text>Cash: ${gameState.cashTotal.toFixed(2)}</Text>
-        <Text>Compute/s: {gameState.flopsRate.toFixed(2)}</Text>
-        <Text>Total Compute: {gameState.flopsTotal.toFixed(0)}</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexShrink: 0, paddingRight: 10}}>
+            <Text style={{fontWeight: '500'}}>Cash</Text>
+            <Text>Total: ${gameState.cashTotal.toFixed(2)}</Text>
+            <Text>Income/s: ${gameState.cashRate.toFixed(2)}</Text>
+          </View>
+          <View style={{flexShrink: 0, paddingLeft: 10}}>
+            <Text style={{fontWeight: '500'}}>Compute</Text>
+            <Text>Total: {gameState.flopsTotal.toFixed(0)}</Text>
+            <Text>Income/s: {gameState.flopsRate.toFixed(2)}</Text>
+          </View>
+        </View>
       </View>
       {
         gameState.unlockedGPUs.length > 0 &&
