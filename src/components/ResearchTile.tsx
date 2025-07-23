@@ -31,7 +31,13 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     textAlign: 'left',
   },
-  descriptionText: {
+  detailsText: {
+    fontSize: 12,
+    marginBottom: 4,
+    textAlign: 'left',
+    maxWidth: 300,
+  },
+  flavorText: {
     fontSize: 12,
     color: '#444444',
     marginBottom: 10,
@@ -86,7 +92,8 @@ const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element =>
     <View style={styles.container}>
       <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString()}</Text>
-      <Text style={[styles.descriptionText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.description}</Text>
+      <Text style={[styles.detailsText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.detailsText}</Text>
+      <Text style={[styles.flavorText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.flavorText}</Text>
       <View style={styles.horizontalButtonContainer}>
         <TouchableOpacity 
           style={[sharedStyles.buttonSmall, canBuy() ? {} : sharedStyles.buttonDisabled]} 

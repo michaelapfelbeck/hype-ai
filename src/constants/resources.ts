@@ -183,7 +183,8 @@ export enum Researches {
 
 export type ResearchData = {
   name: Researches;
-  description: string;
+  detailsText: string;
+  flavorText: string;
   gpuUnlock?: GPUTypes;
   llmUnlock?: LLMTypes;
   efficiencyUpgrade?: EfficiencyUpgrade;
@@ -221,47 +222,56 @@ export type ResearchEntry = {
 export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
   [Researches.ScavengeWeb3]: {
     name: Researches.ScavengeWeb3,
-    description: 'Repurpose mining gear from your not-a-scam crypto project',
+    detailsText: 'Unlocks RTX3090',
+    flavorText: 'Repurpose mining gear from your not-a-scam crypto project',
     gpuUnlock: GPUTypes.RTX3090,
   },
   [Researches.FireExtinguishers]: {
     name: Researches.FireExtinguishers,
-    description: 'Those 12VHPWR cables are a fire hazard, makes RTX4090 available',
+    detailsText: 'Unlocks RTX4090',
+    flavorText: 'Those 12VHPWR cables are a fire hazard, makes RTX4090 available',
     gpuUnlock: GPUTypes.RTX4090,
   },
   [Researches.IndustrialGPUs]: {
     name: Researches.IndustrialGPUs,
-    description: 'Congrats, you can now buy GPUs by the pallet instead of the piece',
+    detailsText: 'Unlocks A6000',
+    flavorText: 'Congrats, you can now buy GPUs by the pallet instead of the piece',
     gpuUnlock: GPUTypes.A6000,
   },
   [Researches.BribeNvidia]: {
     name: Researches.BribeNvidia,
-    description: 'Bribe Nvidia for early access to B300',
+    detailsText: 'Unlocks B300',
+    flavorText: 'Bribe Nvidia for early access to B300',
     gpuUnlock: GPUTypes.B300,
   },
   [Researches.CopyAlexNet]: {
     name: Researches.CopyAlexNet,
-    description: 'Clone Alex Krizhevsky\'s github to unlock AlexNet',
+    detailsText: 'Unlocks AlexNet LLM',
+    flavorText: 'Clone Alex Krizhevsky\'s github to unlock AlexNet',
     llmUnlock: LLMTypes.ALEXNET,
   },
   [Researches.AttentionPaper]: {
     name: Researches.AttentionPaper,
-    description: 'Google did the thinking so we don\'t have to',
+    detailsText: 'Unlocks GPT1 LLM',
+    flavorText: 'Google did the thinking so we don\'t have to',
     llmUnlock: LLMTypes.GPT1,
   },
   [Researches.CrawlWebText]: {
     name: Researches.CrawlWebText,
-    description: 'GPT2 is better than GPT1 mostly because it\'s way bigger',
+    detailsText: 'Unlocks GPT2 LLM',
+    flavorText: 'GPT2 is better than GPT1 mostly because it\'s way bigger',
     llmUnlock: LLMTypes.GPT2,
   },
   [Researches.PirateWholeInternet]: {
     name: Researches.PirateWholeInternet,
-    description: 'Stealing from everyone is like stealing from no one',
+    detailsText: 'Unlocks ChatGPT LLM',
+    flavorText: 'Stealing from everyone is like stealing from no one',
     llmUnlock: LLMTypes.CHATGPT,
   },
   [Researches.Overclocking]: {
     name: Researches.Overclocking,
-    description: 'Push those RTXs till they smoke',
+    detailsText: 'Increase Compute power of RTXs',
+    flavorText: 'Push those RTXs till they smoke',
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.CONSUMER_GPU,
       efficiencyType: EfficiencyType.ProductionRate,
@@ -270,7 +280,8 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
   },
   [Researches.BulkDiscounts]: {
     name: Researches.BulkDiscounts,
-    description: 'Save money on GPUs by buying more GPUs.',
+    detailsText: 'Makes all GPUs slightly cheaper',
+    flavorText: 'Save money on GPUs by buying more GPUs.',
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.GPU,
       efficiencyType: EfficiencyType.CostMultiplier,
@@ -279,7 +290,8 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
   },
   [Researches.CopyDeepSeeksHomework]: {
     name: Researches.CopyDeepSeeksHomework,
-    description: 'We just happened to figure out everything DeepSeek did, too.',
+    detailsText: 'Makes all LLMs slightly cheaper',
+    flavorText: 'We just happened to figure out everything DeepSeek did, too.',
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.LLM,
       efficiencyType: EfficiencyType.CostMultiplier,
@@ -288,7 +300,8 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
   },
   [Researches.AgenticWorkflows]: {
     name: Researches.AgenticWorkflows,
-    description: 'Mumble mumble agents mumble',
+    detailsText: 'Increase cash production of all LLMs',
+    flavorText: 'Mumble mumble agents mumble',
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.LLM,
       efficiencyType: EfficiencyType.ProductionRate,
@@ -300,7 +313,8 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
 const defaultResearchEntry: ResearchEntry = {
   resource: {
     name: Researches.ScavengeWeb3,
-    description: 'placeholder description',
+    detailsText: 'placeholder details',
+    flavorText: 'placeholder description',
     gpuUnlock: undefined,
     llmUnlock: undefined,
   },

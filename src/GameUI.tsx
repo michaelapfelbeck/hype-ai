@@ -87,7 +87,8 @@ const GameUI = (): React.JSX.Element => {
     return ResearchesTable.find((entry) => entry.resource.name === research) || {
       resource: {
         name: research,
-        description: 'Placeholder'
+        detailsText: 'Placeholder',
+        flavorText: 'Placeholder'
       },
       costType: ResourceType.CASH,
       cost: 1,

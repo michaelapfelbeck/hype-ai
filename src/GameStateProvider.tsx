@@ -20,6 +20,8 @@ import {
   EfficiencyType
 } from './constants/resources';
 
+const DEBUG: boolean = false;
+
 type OwnedResource = {
   resource: ResourceGenerator;
   count: number;
@@ -51,7 +53,6 @@ type GameState = {
   generators: OwnedResource[];
 }
 
-const DEBUG: boolean = false;
 const initialState = (): GameState => {
   if (DEBUG) {
     return {
