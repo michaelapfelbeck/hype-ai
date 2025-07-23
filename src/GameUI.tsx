@@ -135,7 +135,7 @@ const GameUI = (): React.JSX.Element => {
         gameState.unlockedGPUs.length > 0 &&
         <StoreTileContainer 
           name="IT Hardware"
-          description="GPUs generate compute power used to train AI models."
+          description="GPUs generate compute power to train AI models."
           columnCount={getStoreWidth()}
           entries={gameState.unlockedGPUs.map((gpu) => getGPUStoreData(gpu))}
         />
@@ -144,7 +144,7 @@ const GameUI = (): React.JSX.Element => {
         gameState.unlockedLLMs.length > 0 &&
         <StoreTileContainer 
           name="Development"
-          description="Large Language Models (LLMs) generate cash used to fund your startup."
+          description="Large Language Models (LLMs) generate cash to fund your startup."
           columnCount={getStoreWidth()}
           entries={gameState.unlockedLLMs.map((llm) => getLLMStoreData(llm))}
         />
