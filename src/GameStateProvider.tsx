@@ -16,7 +16,7 @@ import {
   ResearchEntry,
   UnlockRequirement,
   ResearchData,
-  ResearchTypeTable,
+  FeatureFlag,
   EfficiencyType
 } from './constants/resources';
 
@@ -50,6 +50,7 @@ type GameState = {
   unlockedLLMs: LLMTypes[];
   availableResearch: Researches[];
   purchasedResearch: Researches[];
+  purchasedFeatures: FeatureFlag[];
   generators: OwnedResource[];
 }
 
@@ -67,6 +68,7 @@ const initialState = (): GameState => {
       unlockedLLMs: [],
       availableResearch: [],
       purchasedResearch: [],
+      purchasedFeatures: [],
       generators: [],
     }
   } else {
@@ -82,6 +84,7 @@ const initialState = (): GameState => {
       unlockedLLMs: [],
       availableResearch: [],
       purchasedResearch: [],
+      purchasedFeatures: [],
       generators: [],
     }
   }
@@ -255,6 +258,7 @@ function update(state: GameState, debugTrace: boolean = false): GameState {
   };
 }
 
+// TODO break out different kinds of researches into different functions
 const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
   if (!canAfford(entry.costType, entry.cost, state)) {
     return state;
@@ -292,6 +296,11 @@ const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
   let newCashRate = getProductionRate(ResourceType.CASH, state.generators, researches);
   let newFlopsRate = getProductionRate(ResourceType.FLOPS, state.generators, researches);
 
+  let features = state.purchasedFeatures;
+  if (entry.resource.featureUnlock) {
+    features.push(entry.resource.featureUnlock);
+  }
+
   return {...state, 
     cashTotal: newCash, 
     flopsTotal: newFlops,
@@ -301,7 +310,8 @@ const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
     unlockedGPUs: gpus, 
     unlockedLLMs: llms,
     cashRate: newCashRate,
-    flopsRate: newFlopsRate
+    flopsRate: newFlopsRate,
+    purchasedFeatures: features,
   };
 }
 
@@ -419,7 +429,7 @@ const getAvailableResearch = (state: GameState): Researches[] => {
     if (researchPurchased(research.resource.name, state.purchasedResearch)) {
       continue; // already purchased
     }
-    if (!unlockRequirementMet(research.unlock, state)) {
+    if (!unlockRequirementMet(research.unlockRequirement, state)) {
       continue; // requirements not met
     }
     availableResearch.push(research.resource.name);

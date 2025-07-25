@@ -3,19 +3,25 @@ export enum ResourceType {
   CASH = 'CASH',
   FLOPS = "FLOPS",
   HYPE = "HYPE"
-};
+}
 
 export enum LLMTypes {
   ALEXNET = 'ALEXNET',  
   GPT1 = 'GPT1',
   GPT2 = 'GPT2',
-  CHATGPT = 'CHATGPT'}
+  CHATGPT = 'CHATGPT'
+}
 
 export enum GPUTypes {
   RTX3090 = 'RTX3090',
   RTX4090 = 'RTX4090',
   A6000 = 'A6000',
   B300 = 'B300',
+}
+
+export enum FeatureFlag {
+  KPIDashboard = 'KPIDashboard',
+  StoreInsights = 'StoreInsights',
 }
 
 export enum ResourceTypeTags {
@@ -179,12 +185,14 @@ export enum Researches {
   BulkDiscounts = 'BulkDiscounts',
   CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
   AgenticWorkflows = 'AgenticWorkflows',
+  KPIDashboard = 'KPIDashboard',
 }
 
 export type ResearchData = {
   name: Researches;
   detailsText: string;
   flavorText: string;
+  featureUnlock?: FeatureFlag;
   gpuUnlock?: GPUTypes;
   llmUnlock?: LLMTypes;
   efficiencyUpgrade?: EfficiencyUpgrade;
@@ -216,7 +224,7 @@ export type ResearchEntry = {
   resource: ResearchData;
   costType: ResourceType;
   cost: number;
-  unlock: UnlockRequirement;
+  unlockRequirement: UnlockRequirement;
 }
 
 export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
@@ -307,6 +315,12 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
       efficiencyType: EfficiencyType.ProductionRate,
       efficiency: 0.2,
     }
+  },
+  [Researches.KPIDashboard]: {
+    name: Researches.KPIDashboard,
+    detailsText: 'Show cash and compute details',
+    flavorText: 'Give the MBAs something to stare at so they don\'t bother you',
+    featureUnlock: FeatureFlag.KPIDashboard,
   }
 }
 
@@ -320,7 +334,7 @@ const defaultResearchEntry: ResearchEntry = {
   },
   costType: ResourceType.CASH,
   cost: 0,
-  unlock: {
+  unlockRequirement: {
     resourceType: undefined,
     resourceProduction: 0,
     resourceTotal: 0,
@@ -363,72 +377,78 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.ScavengeWeb3] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 2,
-    unlock: cashTotalUnlock(1)
+    unlockRequirement: cashTotalUnlock(1)
   },
   {
     resource: ResearchTypeTable[Researches.FireExtinguishers] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 100,
-    unlock: cashSpentUnlock(100)
+    unlockRequirement: cashSpentUnlock(100)
   },
   {
     resource: ResearchTypeTable[Researches.IndustrialGPUs] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 8000,
-    unlock: cashIncomeUnlock(75)
+    unlockRequirement: cashIncomeUnlock(75)
   },
   {
     resource: ResearchTypeTable[Researches.BribeNvidia] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 30000,
-    unlock: cashIncomeUnlock(200)
+    unlockRequirement: cashIncomeUnlock(200)
   },
   {
     resource: ResearchTypeTable[Researches.CopyAlexNet] || defaultResearchEntry.resource,
     costType: ResourceType.FLOPS,
     cost: 20,
-    unlock: flopsTotalUnlock(5)
+    unlockRequirement: flopsTotalUnlock(5)
   },
   {
     resource: ResearchTypeTable[Researches.AttentionPaper] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 200,
-    unlock: flopsSpentUnlock(400)
+    unlockRequirement: flopsSpentUnlock(400)
   },
   {
     resource: ResearchTypeTable[Researches.CrawlWebText] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 10000,
-    unlock: flopsIncomeUnlock(200)
+    unlockRequirement: flopsIncomeUnlock(200)
   },
   {
     resource: ResearchTypeTable[Researches.PirateWholeInternet] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 50000,
-    unlock: flopsIncomeUnlock(400)
+    unlockRequirement: flopsIncomeUnlock(400)
   },
   {
     resource: ResearchTypeTable[Researches.Overclocking] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 100,
-    unlock: flopsIncomeUnlock(20)
+    unlockRequirement: flopsIncomeUnlock(20)
   },
   {
     resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 200,
-    unlock: cashSpentUnlock(500)
+    unlockRequirement: cashSpentUnlock(500)
   },
   {
     resource: ResearchTypeTable[Researches.CopyDeepSeeksHomework] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 1000,
-    unlock: flopsSpentUnlock(1000)
+    unlockRequirement: flopsSpentUnlock(1000)
   },
   {
     resource: ResearchTypeTable[Researches.AgenticWorkflows] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 1000,
-    unlock: flopsSpentUnlock(2000)
+    unlockRequirement: flopsSpentUnlock(2000)
+  },
+  {
+    resource: ResearchTypeTable[Researches.KPIDashboard] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 5,
+    unlockRequirement: cashSpentUnlock(5)
   }
 ]

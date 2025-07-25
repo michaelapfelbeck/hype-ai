@@ -3,12 +3,22 @@ import {
   StyleSheet, 
   Text, 
   View,
-  TouchableOpacity,
   Dimensions
 } from 'react-native';
 import { sharedStyles } from './styles';
 import { useGameState, useGameDispatch } from './GameStateProvider';
-import { LLMTypes, ResourceType, StoreEntry, LLMs, GPUTypes, GPUs, Researches, ResearchesTable, ResearchEntry} from './constants/resources';
+import { 
+  LLMTypes, 
+  ResourceType, 
+  StoreEntry, 
+  LLMs, 
+  GPUTypes, 
+  GPUs, 
+  Researches, 
+  ResearchesTable, 
+  ResearchEntry,
+  FeatureFlag
+} from './constants/resources';
 import StoreTileContainer from './components/StoreTileContainer';
 import ResearchTileContainer from './components/ResearchTileContainer';
 import GameButton, { ButtonSize } from './components/GameButton';
@@ -92,7 +102,7 @@ const GameUI = (): React.JSX.Element => {
       },
       costType: ResourceType.CASH,
       cost: 1,
-      unlock: {}
+      unlockRequirement: {}
     }
   }
 
@@ -102,6 +112,13 @@ const GameUI = (): React.JSX.Element => {
     } else {
       return 3;
     }
+  }
+
+  const hasFeature = (feature: FeatureFlag): boolean => {
+    if (!gameState.purchasedFeatures) {
+      return true;
+    }
+    return gameState.purchasedFeatures.includes(feature);
   }
 
   return (
@@ -115,22 +132,26 @@ const GameUI = (): React.JSX.Element => {
           onPress={() => {addCash(1)}}
         />
       </View>
-      <View style={sharedStyles.uiSegmentContainer}>
-        <Text style={sharedStyles.segmentHeaderText}>Business</Text>
-        <View style={sharedStyles.segmentHeaderSeperator}/>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexShrink: 0, paddingRight: 10}}>
-            <Text style={{fontWeight: '500'}}>Cash</Text>
-            <Text>Total: ${gameState.cashTotal.toFixed(2)}</Text>
-            <Text>Income/s: ${gameState.cashRate.toFixed(2)}</Text>
-          </View>
-          <View style={{flexShrink: 0, paddingLeft: 10}}>
-            <Text style={{fontWeight: '500'}}>Compute</Text>
-            <Text>Total: {gameState.flopsTotal.toFixed(0)}</Text>
-            <Text>Income/s: {gameState.flopsRate.toFixed(2)}</Text>
+      { 
+        hasFeature(FeatureFlag.KPIDashboard) && 
+        <View style={sharedStyles.uiSegmentContainer}>
+          <Text style={sharedStyles.segmentHeaderText}>Business</Text>
+          <View style={sharedStyles.segmentHeaderSeperator}/>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{flexShrink: 0, paddingRight: 10}}>
+              <Text style={{fontWeight: '500'}}>Cash</Text>
+              <Text>Total: ${gameState.cashTotal.toFixed(2)}</Text>
+              <Text>Income/s: ${gameState.cashRate.toFixed(2)}</Text>
+            </View>
+            <View style={{flexShrink: 0, paddingLeft: 10}}>
+              <Text style={{fontWeight: '500'}}>Compute</Text>
+              <Text>Total: {gameState.flopsTotal.toFixed(0)}</Text>
+              <Text>Income/s: {gameState.flopsRate.toFixed(2)}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      }
+      
       {
         gameState.unlockedGPUs.length > 0 &&
         <StoreTileContainer 
