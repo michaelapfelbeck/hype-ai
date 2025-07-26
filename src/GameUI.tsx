@@ -22,6 +22,7 @@ import {
 import StoreTileContainer from './components/StoreTileContainer';
 import ResearchTileContainer from './components/ResearchTileContainer';
 import GameButton, { ButtonSize } from './components/GameButton';
+import { hasFeature } from './helpers';
 
 const styles = StyleSheet.create({
   container: {
@@ -114,13 +115,6 @@ const GameUI = (): React.JSX.Element => {
     }
   }
 
-  const hasFeature = (feature: FeatureFlag): boolean => {
-    if (!gameState.purchasedFeatures) {
-      return true;
-    }
-    return gameState.purchasedFeatures.includes(feature);
-  }
-
   return (
     <View style={styles.container}>
       <View style={sharedStyles.uiSegmentContainer}>
@@ -133,7 +127,7 @@ const GameUI = (): React.JSX.Element => {
         />
       </View>
       { 
-        hasFeature(FeatureFlag.KPIDashboard) && 
+        hasFeature(FeatureFlag.KPIDashboard, gameState.purchasedFeatures) && 
         <View style={sharedStyles.uiSegmentContainer}>
           <Text style={sharedStyles.segmentHeaderText}>Business</Text>
           <View style={sharedStyles.segmentHeaderSeperator}/>

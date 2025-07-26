@@ -186,6 +186,7 @@ export enum Researches {
   CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
   AgenticWorkflows = 'AgenticWorkflows',
   KPIDashboard = 'KPIDashboard',
+  StoreInsights = 'StoreInsights',
 }
 
 export type ResearchData = {
@@ -321,6 +322,12 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     detailsText: 'Show cash and compute details',
     flavorText: 'Give the MBAs something to stare at so they don\'t bother you',
     featureUnlock: FeatureFlag.KPIDashboard,
+  },
+  [Researches.StoreInsights]: {
+    name: Researches.StoreInsights,
+    detailsText: 'Show income from store items',
+    flavorText: 'Buy stuff based on more than just vibes',
+    featureUnlock: FeatureFlag.StoreInsights,
   }
 }
 
@@ -449,6 +456,12 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.KPIDashboard] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 5,
-    unlockRequirement: cashSpentUnlock(5)
+    unlockRequirement: cashSpentUnlock(1)
+  },
+  {
+    resource: ResearchTypeTable[Researches.StoreInsights] || defaultResearchEntry.resource,
+    costType: ResourceType.CASH,
+    cost: 1,
+    unlockRequirement: cashSpentUnlock(1)
   }
 ]

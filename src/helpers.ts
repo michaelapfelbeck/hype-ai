@@ -4,7 +4,8 @@ import {
   EfficiencyType, 
   Researches, 
   ResearchTypeTable,
-  StoreEntry
+  StoreEntry,
+  FeatureFlag
 } from './constants/resources';
 
 export const calcPrice = (owned: number, entry: StoreEntry, count: number, purchasedResearch: Researches[] = []): number => {
@@ -45,4 +46,11 @@ export const getEfficiencyResearchesOfType = (efficiencyType: EfficiencyType, pu
     .map((r) => ResearchTypeTable[r])
     .filter((rd): rd is ResearchData => rd !== undefined)
     .filter((rd) => rd.efficiencyUpgrade && rd.efficiencyUpgrade.efficiencyType == efficiencyType);
+}
+
+export const hasFeature = (feature: FeatureFlag, purchased: FeatureFlag[]): boolean => {
+  if (!purchased || purchased.length === 0) {
+    return true;;
+  }
+  return purchased.includes(feature);
 }

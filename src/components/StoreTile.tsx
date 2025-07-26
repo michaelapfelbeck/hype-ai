@@ -3,11 +3,10 @@ import {
   StyleSheet, 
   Text, 
   View,
-  TouchableOpacity,
 } from 'react-native';
-import { ResourceType, StoreEntry } from '../constants/resources';
+import { ResourceType, StoreEntry, FeatureFlag } from '../constants/resources';
 import { useGameState } from '../GameStateProvider';
-import { calcPrice } from '../helpers';
+import { calcPrice, hasFeature } from '../helpers';
 import { sharedStyles } from '../styles';
 import GameButton, { ButtonSize } from './GameButton';
 
@@ -52,7 +51,7 @@ type StoreTileProps = PropsWithChildren<{
 }>
 
 const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
-  const { cashTotal, flopsTotal, generators, purchasedResearch } = useGameState();
+  const { cashTotal, flopsTotal, generators, purchasedResearch, purchasedFeatures } = useGameState();
 
   const getNumberOwned = (): number => {
     const result = generators.find((g) => g.resource.name == entry.resource.name);
@@ -96,6 +95,20 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
     return '';
   }
 
+  // TODO: need to factor production research into this
+  const getIncomeString = (): string => {
+    switch (entry.resource.generatesType) {
+      case ResourceType.CASH:
+        return `$${entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 2})}/s`;
+        break;
+      case ResourceType.FLOPS:
+        return `${entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 0})} Compute/s`;
+      default:
+        return entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 2});
+    }
+    return '';
+  }
+
   const getCostForCount = (count: number): number => {
     return calcPrice(getNumberOwned(), entry, count, purchasedResearch);
   }
@@ -104,6 +117,10 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
     <View style={styles.container}>
       <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Count: {getNumberOwned()}</Text>
+      {
+        hasFeature(FeatureFlag.StoreInsights, purchasedFeatures) && 
+        <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Income: {getIncomeString()}</Text>
+      }
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString(getCostForCount(1))}</Text>
       <Text style={[styles.descriptionText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={4}>{entry.resource.description}</Text>
       <View style={styles.horizontalButtonContainer}>
