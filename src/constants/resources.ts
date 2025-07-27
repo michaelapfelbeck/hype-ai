@@ -461,7 +461,7 @@ export const ResearchesTable: ResearchEntry[] = [
   {
     resource: ResearchTypeTable[Researches.StoreInsights] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
-    cost: 1,
+    cost: 10,
     unlockRequirement: cashSpentUnlock(1)
   }
 ]

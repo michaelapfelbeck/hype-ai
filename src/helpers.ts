@@ -49,8 +49,15 @@ export const getEfficiencyResearchesOfType = (efficiencyType: EfficiencyType, pu
 }
 
 export const hasFeature = (feature: FeatureFlag, purchased: FeatureFlag[]): boolean => {
-  if (!purchased || purchased.length === 0) {
-    return true;;
+  if (!purchased) {
+    return true;
   }
   return purchased.includes(feature);
+}
+
+export const getResearchThatEffects = (researches: Researches[], generator: ResourceGenerator): ResearchData[] => {
+  return researches
+    .map((r) => ResearchTypeTable[r])
+    .filter((rd): rd is ResearchData => rd !== undefined)
+    .filter((rd) => researchEffectsGenerator(rd, generator));
 }

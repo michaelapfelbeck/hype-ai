@@ -58,9 +58,9 @@ const initialState = (): GameState => {
   if (DEBUG) {
     return {
       saveTimer: 0,
-      cashTotal: 1000,
+      cashTotal: 100000,
       cashRate: 0,
-      flopsTotal: 1000,
+      flopsTotal: 100000,
       flopsRate: 0,
       totalCashSpent: 0,
       totalFlopSpent: 0,

@@ -4,9 +4,9 @@ import {
   Text, 
   View,
 } from 'react-native';
-import { ResourceType, StoreEntry, FeatureFlag } from '../constants/resources';
+import { ResourceType, StoreEntry, FeatureFlag, ResearchData, EfficiencyType } from '../constants/resources';
 import { useGameState } from '../GameStateProvider';
-import { calcPrice, hasFeature } from '../helpers';
+import { calcPrice, getResearchThatEffects, hasFeature, getProductionWithMultiplier } from '../helpers';
 import { sharedStyles } from '../styles';
 import GameButton, { ButtonSize } from './GameButton';
 
@@ -95,16 +95,23 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
     return '';
   }
 
-  // TODO: need to factor production research into this
   const getIncomeString = (): string => {
+    const researchData: ResearchData[] = getResearchThatEffects(purchasedResearch, entry.resource)
+      .filter((r) => r.efficiencyUpgrade?.efficiencyType == EfficiencyType.ProductionRate);
+    // console.log(`found ${researchData.length} research that effects ${entry.resource.name}`);
+    const productionBonus = researchData.reduce((acc, r) => acc + (r.efficiencyUpgrade?.efficiency ?? 0), 0);
+    const productionRate = getProductionWithMultiplier(entry.resource.productionRate, productionBonus);
+    // console.log(`base production for ${entry.resource.name} is ${entry.resource.productionRate}`);
+    // console.log(`production bonus for ${entry.resource.name} is ${productionBonus}`);
+    // console.log(`production rate for ${entry.resource.name} is ${productionRate}`);
     switch (entry.resource.generatesType) {
       case ResourceType.CASH:
-        return `$${entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 2})}/s`;
+        return `$${productionRate.toLocaleString(undefined, {maximumFractionDigits: 2})}/s`;
         break;
       case ResourceType.FLOPS:
-        return `${entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 0})} Compute/s`;
+        return `${productionRate.toLocaleString(undefined, {maximumFractionDigits: 1})} Compute/s`;
       default:
-        return entry.resource.productionRate.toLocaleString(undefined, {maximumFractionDigits: 2});
+        return productionRate.toLocaleString(undefined, {maximumFractionDigits: 2});
     }
     return '';
   }
@@ -116,7 +123,7 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
   return (
     <View style={styles.container}>
       <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
-      <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Count: {getNumberOwned()}</Text>
+      <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Owned: {getNumberOwned()}</Text>
       {
         hasFeature(FeatureFlag.StoreInsights, purchasedFeatures) && 
         <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Income: {getIncomeString()}</Text>
