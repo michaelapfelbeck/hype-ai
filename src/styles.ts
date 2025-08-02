@@ -93,7 +93,7 @@ export const sharedStyles = StyleSheet.create({
     fontSize: 12,
   },
   textDisabled: {
-    color: '#666666',
+    color: '#606060',
   },
   tileContainer: {
     flex: 3,

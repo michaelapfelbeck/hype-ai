@@ -120,6 +120,7 @@ const GameUI = (): React.JSX.Element => {
       <View style={sharedStyles.uiSegmentContainer}>
         <Text style={sharedStyles.headlineText}>{gameState.startupName}.AI</Text>
         <Text style={sharedStyles.subHeadingText}>Total Spent: ${gameState.totalCashSpent.toLocaleString(undefined, {maximumFractionDigits: 2})}</Text>
+        {/* <Text style={sharedStyles.subHeadingText}>Total Compute Spent: {gameState.totalFlopSpent.toLocaleString(undefined, {maximumFractionDigits: 2})}</Text> */}
         <GameButton 
           size={ButtonSize.Large}
           label="Angel Investment"

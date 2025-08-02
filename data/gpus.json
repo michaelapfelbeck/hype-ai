@@ -1,0 +1,30 @@
+[
+  {
+    "name": "RTX3090",
+    "description": "Consumer GPU scavenged from a crypto mining rig.",
+    "generatesType": "FLOPS",
+    "productionRate": 5,
+    "tags": ["GPU", "CONSUMER_GPU"]
+  },
+  {
+    "name": "RTX4090",
+    "description": "An even more powerful GPU that's totally not a fire hazard.",
+    "generatesType": "FLOPS",
+    "productionRate": 20,
+    "tags": ["GPU", "CONSUMER_GPU"]
+  },
+  {
+    "name": "A6000",
+    "description": "A GPU so expensive, you'll need a research grant just to look at it.",
+    "generatesType": "FLOPS",
+    "productionRate": 100,
+    "tags": ["GPU", "INDUSTRIAL_GPU"]
+  },
+  {
+    "name": "B300",
+    "description": "It burns cash and watts faster than your AI can hallucinate.",
+    "generatesType": "FLOPS",
+    "productionRate": 400.0,
+    "tags": ["GPU", "INDUSTRIAL_GPU"]
+  }
+]

@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#F8F8F8',
   },
+  containerDisabled: {
+    backgroundColor: '#F4F4F4',
+  },
   titleText: {
     fontSize: 20,
   },
@@ -121,7 +124,7 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, !canBuy(1) && styles.containerDisabled]}>
       <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Owned: {getNumberOwned()}</Text>
       {

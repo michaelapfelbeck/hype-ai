@@ -284,7 +284,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.CONSUMER_GPU,
       efficiencyType: EfficiencyType.ProductionRate,
-      efficiency: 0.05,
+      efficiency: 0.1,
     }
   },
   [Researches.BulkDiscounts]: {
@@ -294,7 +294,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.GPU,
       efficiencyType: EfficiencyType.CostMultiplier,
-      efficiency: 0.1,
+      efficiency: 0.15,
     }
   },
   [Researches.CopyDeepSeeksHomework]: {
@@ -304,7 +304,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.LLM,
       efficiencyType: EfficiencyType.CostMultiplier,
-      efficiency: 0.15,
+      efficiency: 0.20,
     }
   },
   [Researches.AgenticWorkflows]: {
@@ -314,7 +314,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
     efficiencyUpgrade: {
       affectedTags: ResourceTypeTags.LLM,
       efficiencyType: EfficiencyType.ProductionRate,
-      efficiency: 0.2,
+      efficiency: 0.25,
     }
   },
   [Researches.KPIDashboard]: {
@@ -390,7 +390,7 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.FireExtinguishers] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 100,
-    unlockRequirement: cashSpentUnlock(100)
+    unlockRequirement: cashSpentUnlock(65)
   },
   {
     resource: ResearchTypeTable[Researches.IndustrialGPUs] || defaultResearchEntry.resource,
@@ -414,7 +414,7 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.AttentionPaper] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 200,
-    unlockRequirement: flopsSpentUnlock(400)
+    unlockRequirement: flopsSpentUnlock(295)
   },
   {
     resource: ResearchTypeTable[Researches.CrawlWebText] || defaultResearchEntry.resource,

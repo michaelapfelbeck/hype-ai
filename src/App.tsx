@@ -5,7 +5,6 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import GameUI from './GameUI';
 import { GameStateProvider } from './GameStateProvider';
 import Container from './Container';
 

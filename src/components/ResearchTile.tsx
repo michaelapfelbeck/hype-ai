@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#F8F8F8',
   },
+  containerDisabled: {
+    backgroundColor: '#F4F4F4',
+  },
   titleText: {
     fontSize: 20,
   },
@@ -89,21 +92,15 @@ const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element =>
   }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+      style={[styles.container, !canBuy() && styles.containerDisabled]}
+      onPress={() => onClick(entry)}
+      disabled={!canBuy()}>
       <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString()}</Text>
       <Text style={[styles.detailsText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.detailsText}</Text>
       <Text style={[styles.flavorText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.flavorText}</Text>
-      <View style={styles.horizontalButtonContainer}>
-        <TouchableOpacity 
-          style={[sharedStyles.buttonSmall, canBuy() ? {} : sharedStyles.buttonDisabled]} 
-          onPress={() => onClick(entry)}
-          disabled={canBuy() ? false : true}
-        >
-          <Text style={sharedStyles.buttonTextSmall} numberOfLines={1} >Buy</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

@@ -1,7 +1,6 @@
 ## Known bugs:
 - Business summary text wobbles slightly as string lengths change
 - Title text gets cut-off on mobile sometimes
-- Background color changes in itch.io fullscreen
 
 ## Feature Ideas
 - Detect browser dark mode

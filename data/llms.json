@@ -1,0 +1,30 @@
+[
+  {
+    "name": "ALEXNET",
+    "description": "You don't have to understand it, just git clone it",
+    "generatesType": "CASH",
+    "productionRate": 1.5,
+    "tags": ["LLM", "SMALL_LLM"]
+  },
+  {
+    "name": "GPT1",
+    "description": "Word salad as a service.",
+    "generatesType": "CASH",
+    "productionRate": 6,
+    "tags": ["LLM", "SMALL_LLM"]
+  },
+  {
+    "name": "GPT2",
+    "description": "10x the parameters of GPT1, same amount of nonsense.",
+    "generatesType": "CASH",
+    "productionRate": 30,
+    "tags": ["LLM", "LARGE_LLM"]
+  },
+  {
+    "name": "CHATGPT",
+    "description": "A chatbot that confidently makes things up while beating Stackoverflow at civility.",
+    "generatesType": "CASH",
+    "productionRate": 120,
+    "tags": ["LLM", "LARGE_LLM"]
+  }
+]
