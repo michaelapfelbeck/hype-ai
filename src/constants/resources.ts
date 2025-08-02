@@ -1,4 +1,6 @@
 
+
+
 export enum ResourceType {
   CASH = 'CASH',
   FLOPS = "FLOPS",
@@ -48,36 +50,8 @@ export type StoreEntry = {
   costMultiplier: number;
 }
 
-export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = {
-  [GPUTypes.RTX3090]: {
-      name: GPUTypes.RTX3090,
-      description: 'Consumer GPU scavenged from a crypto mining rig.',
-      generatesType: ResourceType.FLOPS,
-      productionRate: 5,
-      tags: [ResourceTypeTags.GPU, ResourceTypeTags.CONSUMER_GPU],
-  },
-  [GPUTypes.RTX4090]: {
-      name: GPUTypes.RTX4090,
-      description: 'An even more powerful GPU that\'s totally not a fire hazard.',
-      generatesType: ResourceType.FLOPS,
-      productionRate: 20,
-      tags: [ResourceTypeTags.GPU, ResourceTypeTags.CONSUMER_GPU],
-  },
-  [GPUTypes.A6000]: {
-      name: GPUTypes.A6000,
-      description: 'A GPU so expensive, you\'ll need a research grant just to look at it.',
-      generatesType: ResourceType.FLOPS,
-      productionRate: 100,
-      tags: [ResourceTypeTags.GPU, ResourceTypeTags.INDUSTRIAL_GPU],
-  },
-  [GPUTypes.B300]: {
-      name: GPUTypes.B300,
-      description: 'It burns cash and watts faster than your AI can hallucinate.',
-      generatesType: ResourceType.FLOPS,
-      productionRate: 400.0,
-      tags: [ResourceTypeTags.GPU, ResourceTypeTags.INDUSTRIAL_GPU],
-  }
-}
+import gpuData from '../../data/gpus.json';
+export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = Object.assign({}, ...gpuData.map((x) => ({[x.name]: x})));
 
 const defaultResourceGenerator: ResourceGenerator = {
   name: 'placeholder',
