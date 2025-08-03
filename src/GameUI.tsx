@@ -11,9 +11,9 @@ import {
   LLMTypes, 
   ResourceType, 
   StoreEntry, 
-  LLMs, 
+  LlmStore, 
   GPUTypes, 
-  GPUs, 
+  GpuStore, 
   Researches, 
   ResearchesTable, 
   ResearchEntry,
@@ -65,7 +65,7 @@ const GameUI = (): React.JSX.Element => {
   }, []);
 
   const getLLMStoreData = (llm: LLMTypes): StoreEntry => {
-    return LLMs.find((entry) => entry.resource.name === llm) ||   {
+    return LlmStore.find((entry) => entry.resource.name === llm) ||   {
       resource: {
         name: LLMTypes.ALEXNET,
         description: 'Placeholder',
@@ -80,7 +80,7 @@ const GameUI = (): React.JSX.Element => {
   }
 
   const getGPUStoreData = (llm: GPUTypes): StoreEntry => {
-    return GPUs.find((entry) => entry.resource.name === llm) ||   {
+    return GpuStore.find((entry) => entry.resource.name === llm) ||   {
       resource: {
         name: GPUTypes.RTX3090,
         description: 'Placeholder',

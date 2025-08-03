@@ -52,6 +52,8 @@ export type StoreEntry = {
 
 import gpuData from '../../data/gpus.json';
 export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = Object.assign({}, ...gpuData.map((x) => ({[x.name]: x})));
+import llmData from '../../data/llms.json';
+export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = Object.assign({}, ...llmData.map((x) => ({[x.name]: x})));
 
 const defaultResourceGenerator: ResourceGenerator = {
   name: 'placeholder',
@@ -61,7 +63,7 @@ const defaultResourceGenerator: ResourceGenerator = {
   tags: [ResourceTypeTags.GPU],
 }
 
-export const GPUs: StoreEntry[] = [
+export const GpuStore: StoreEntry[] = [
   {
     resource: GPUTypesTable[GPUTypes.RTX3090] || defaultResourceGenerator,
     costType: ResourceType.CASH,
@@ -88,38 +90,7 @@ export const GPUs: StoreEntry[] = [
   }
 ]
 
-export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = {
-  [LLMTypes.ALEXNET]: {
-      name: LLMTypes.ALEXNET,
-      description: 'You don\'t have to understand it, just git clone it',
-      generatesType: ResourceType.CASH,
-      productionRate: 1.5,
-      tags: [ResourceTypeTags.LLM, ResourceTypeTags.SMALL_LLM],
-    },
-  [LLMTypes.GPT1]: {
-      name: LLMTypes.GPT1,
-      description: 'Word salad as a service.',
-      generatesType: ResourceType.CASH,
-      productionRate: 6,
-      tags: [ResourceTypeTags.LLM, ResourceTypeTags.SMALL_LLM],
-    },
-    [LLMTypes.GPT2]: {
-      name: LLMTypes.GPT2,
-      description: '10x the parameters of GPT1, same amount of nonsense.',
-      generatesType: ResourceType.CASH,
-      productionRate: 30,
-      tags: [ResourceTypeTags.LLM, ResourceTypeTags.LARGE_LLM],
-    },
-    [LLMTypes.CHATGPT]: {
-      name: LLMTypes.CHATGPT,
-      description: 'A chatbot that confidently makes things up while beating Stackoverflow at civility.',
-      generatesType: ResourceType.CASH,
-      productionRate: 120,
-      tags: [ResourceTypeTags.LLM, ResourceTypeTags.LARGE_LLM],
-    }
-  }
-
-export const LLMs: StoreEntry[] = [
+export const LlmStore: StoreEntry[] = [
   {
     resource: LLMTypeTable[LLMTypes.ALEXNET] || defaultResourceGenerator,
     costType: ResourceType.FLOPS,
@@ -394,7 +365,7 @@ export const ResearchesTable: ResearchEntry[] = [
     resource: ResearchTypeTable[Researches.CrawlWebText] || defaultResearchEntry.resource,
     costType: ResourceType.CASH,
     cost: 10000,
-    unlockRequirement: flopsIncomeUnlock(200)
+    unlockRequirement: flopsIncomeUnlock(170)
   },
   {
     resource: ResearchTypeTable[Researches.PirateWholeInternet] || defaultResearchEntry.resource,
