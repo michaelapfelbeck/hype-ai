@@ -91,7 +91,7 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
       case ResourceType.CASH:
         return `Cost: $${cost.toLocaleString(undefined, {maximumFractionDigits: 2})}`;
       case ResourceType.FLOPS:
-        return `Cost: ${cost.toLocaleString(undefined, {maximumFractionDigits: 0})} FLOPS`;
+        return `Cost: ${cost.toLocaleString(undefined, {maximumFractionDigits: 0})} Compute`;
       default:
         return cost.toLocaleString(undefined, {maximumFractionDigits: 2});
     }

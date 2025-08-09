@@ -1,0 +1,102 @@
+[
+  {
+    "name": "ScavengeWeb3",
+    "detailsText": "Unlocks RTX3090",
+    "flavorText": "Repurpose mining gear from your not-a-scam crypto project",
+    "gpuUnlock": "RTX3090"
+  },
+  {
+    "name": "FireExtinguishers",
+    "detailsText": "Unlocks RTX4090",
+    "flavorText": "Those 12VHPWR cables are a fire hazard, makes RTX4090 available",
+    "gpuUnlock": "RTX4090"
+  },
+  {
+    "name": "IndustrialGPUs",
+    "detailsText": "Unlocks A6000",
+    "flavorText": "Congrats, you can now buy GPUs by the pallet instead of the piece",
+    "gpuUnlock": "A6000"
+  },
+  {
+    "name": "BribeNvidia",
+    "detailsText": "Unlocks B300",
+    "flavorText": "Bribe Nvidia for early access to B300",
+    "gpuUnlock": "B300"
+  },
+  {
+    "name": "CopyAlexNet",
+    "detailsText": "Unlocks AlexNet LLM",
+    "flavorText": "Clone Alex Krizhevsky's github to unlock AlexNet",
+    "llmUnlock": "ALEXNET"
+  },
+  {
+    "name": "AttentionPaper",
+    "detailsText": "Unlocks GPT1 LLM",
+    "flavorText": "Google did the thinking so we don't have to",
+    "llmUnlock": "GPT1"
+  },
+  {
+    "name": "CrawlWebText",
+    "detailsText": "Unlocks GPT2 LLM",
+    "flavorText": "GPT2 is better than GPT1 mostly because it's way bigger",
+    "llmUnlock": "GPT2"
+  },
+  {
+    "name": "PirateWholeInternet",
+    "detailsText": "Unlocks ChatGPT LLM",
+    "flavorText": "Stealing from everyone is like stealing from no one",
+    "llmUnlock": "CHATGPT"
+  },
+  {
+    "name": "Overclocking",
+    "detailsText": "Increase Compute power of RTXs",
+    "flavorText": "Push those RTXs till they smoke",
+    "efficiencyUpgrade": {
+      "affectedTags": "CONSUMER_GPU",
+      "efficiencyType": "ProductionRate",
+      "efficiency": 0.1
+    }
+  },
+  {
+    "name": "BulkDiscounts",
+    "detailsText": "Makes all GPUs slightly cheaper",
+    "flavorText": "Save money on GPUs by buying more GPUs.",
+    "efficiencyUpgrade": {
+      "affectedTags": "GPU",
+      "efficiencyType": "CostMultiplier",
+      "efficiency": 0.15
+    }
+  },
+  {
+    "name": "CopyDeepSeeksHomework",
+    "detailsText": "Makes all LLMs slightly cheaper",
+    "flavorText": "We just happened to figure out everything DeepSeek did, too.",
+    "efficiencyUpgrade": {
+      "affectedTags": "LLM",
+      "efficiencyType": "CostMultiplier",
+      "efficiency": 0.2
+    }
+  },
+  {
+    "name": "AgenticWorkflows",
+    "detailsText": "Increase cash production of all LLMs",
+    "flavorText": "Mumble mumble agents mumble",
+    "efficiencyUpgrade": {
+      "affectedTags": "LLM",
+      "efficiencyType": "ProductionRate",
+      "efficiency": 0.25
+    }
+  },
+  {
+    "name": "KPIDashboard",
+    "detailsText": "Show cash and compute details",
+    "flavorText": "Give the MBAs something to stare at so they don't bother you",
+    "featureUnlock": "KPIDashboard"
+  },
+  {
+    "name": "StoreInsights",
+    "detailsText": "Show income from store items",
+    "flavorText": "Buy stuff based on more than just vibes",
+    "featureUnlock": "StoreInsights"
+  }
+]

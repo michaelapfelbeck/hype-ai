@@ -1,6 +1,3 @@
-
-
-
 export enum ResourceType {
   CASH = 'CASH',
   FLOPS = "FLOPS",
@@ -35,6 +32,29 @@ export enum ResourceTypeTags {
   LARGE_LLM = 'LARGE_LLM',
 }
 
+export enum Researches {
+  ScavengeWeb3 = 'ScavengeWeb3',
+  FireExtinguishers = 'FireExtinguishers',
+  IndustrialGPUs = 'IndustrialGPUs',
+  BribeNvidia = 'BribeNvidia',
+  CopyAlexNet = 'CopyAlexNet',
+  AttentionPaper = 'AttentionPaper',
+  CrawlWebText = 'CrawlWebText',
+  PirateWholeInternet = 'PirateWholeInternet',
+  Overclocking = 'Overclocking',
+  BulkDiscounts = 'BulkDiscounts',
+  CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
+  AgenticWorkflows = 'AgenticWorkflows',
+  KPIDashboard = 'KPIDashboard',
+  StoreInsights = 'StoreInsights',
+}
+
+export enum EfficiencyType {
+  // BaseCost = 'BASE_COST',
+  CostMultiplier = 'COST_MULTIPLIER',
+  ProductionRate = 'PRODUCTION_RATE',
+}
+
 export type ResourceGenerator = {
   name: string;
   description: string;
@@ -50,10 +70,86 @@ export type StoreEntry = {
   costMultiplier: number;
 }
 
+export type ResearchData = {
+  name: Researches;
+  detailsText: string;
+  flavorText: string;
+  featureUnlock?: FeatureFlag;
+  gpuUnlock?: GPUTypes;
+  llmUnlock?: LLMTypes;
+  efficiencyUpgrade?: EfficiencyUpgrade;
+}
+
+export type EfficiencyUpgrade = {
+  affectedLLM?: LLMTypes;
+  affectedGPU?: GPUTypes;
+  affectedTags?: ResourceTypeTags;
+  efficiencyType: EfficiencyType;
+  efficiency: number;
+}
+
+export type UnlockRequirement = {
+  resourceType?: ResourceType;
+  resourceProduction?: number;
+  resourceTotal?: number;
+  resourceSpent?: number;
+  research?: Researches;
+}
+
+export type ResearchEntry = {
+  resource: ResearchData;
+  costType: ResourceType;
+  cost: number;
+  unlockRequirement: UnlockRequirement;
+}
+
 import gpuData from '../../data/gpus.json';
 export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = Object.assign({}, ...gpuData.map((x) => ({[x.name]: x})));
 import llmData from '../../data/llms.json';
 export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = Object.assign({}, ...llmData.map((x) => ({[x.name]: x})));
+import researchData from '../../data/researches.json'
+export const ResearchTypeTable: { [K in Researches]?: ResearchData } = Object.assign({}, ...researchData.map((x) => ({[x.name]: x})));
+
+// Types for JSON data structure
+type StoreEntryJSON = {
+  type: GPUTypes | LLMTypes;
+  costType: ResourceType;
+  cost: number;
+  costMultiplier: number;
+}
+
+// Transformation functions
+const transformGPUStoreEntry = (entry: StoreEntryJSON & { type: GPUTypes }): StoreEntry => {
+  const resource = GPUTypesTable[entry.type];
+  if (!resource) {
+    throw new Error(`GPU type ${entry.type} not found in GPUTypesTable`);
+  }
+  return {
+    resource,
+    costType: entry.costType,
+    cost: entry.cost,
+    costMultiplier: entry.costMultiplier
+  };
+};
+
+const transformLLMStoreEntry = (entry: StoreEntryJSON & { type: LLMTypes }): StoreEntry => {
+  const resource = LLMTypeTable[entry.type];
+  if (!resource) {
+    throw new Error(`LLM type ${entry.type} not found in LLMTypeTable`);
+  }
+  return {
+    resource,
+    costType: entry.costType,
+    cost: entry.cost,
+    costMultiplier: entry.costMultiplier
+  };
+};
+
+// Load and transform store data
+import gpuStoreData from '../../data/gpuStore.json';
+export const GpuStore: StoreEntry[] = gpuStoreData.map(entry => 
+  transformGPUStoreEntry(entry as StoreEntryJSON & { type: GPUTypes })
+);
 
 const defaultResourceGenerator: ResourceGenerator = {
   name: 'placeholder',
@@ -62,33 +158,6 @@ const defaultResourceGenerator: ResourceGenerator = {
   productionRate: 1.0,
   tags: [ResourceTypeTags.GPU],
 }
-
-export const GpuStore: StoreEntry[] = [
-  {
-    resource: GPUTypesTable[GPUTypes.RTX3090] || defaultResourceGenerator,
-    costType: ResourceType.CASH,
-    cost: 8,
-    costMultiplier: 0.2,
-  },
-  {
-    resource: GPUTypesTable[GPUTypes.RTX4090] || defaultResourceGenerator,
-    costType: ResourceType.CASH,
-    cost: 50,
-    costMultiplier: 0.25,
-  },
-  {
-    resource: GPUTypesTable[GPUTypes.A6000] || defaultResourceGenerator,
-    costType: ResourceType.CASH,
-    cost: 500,
-    costMultiplier: 0.3,
-  },
-  {
-    resource: GPUTypesTable[GPUTypes.B300] || defaultResourceGenerator,
-    costType: ResourceType.CASH,
-    cost: 4500,
-    costMultiplier: 0.4,
-  }
-]
 
 export const LlmStore: StoreEntry[] = [
   {
@@ -116,165 +185,6 @@ export const LlmStore: StoreEntry[] = [
     costMultiplier: 0.4,
   }
 ]
-
-export enum Researches {
-  ScavengeWeb3 = 'ScavengeWeb3',
-  FireExtinguishers = 'FireExtinguishers',
-  IndustrialGPUs = 'IndustrialGPUs',
-  BribeNvidia = 'BribeNvidia',
-  CopyAlexNet = 'CopyAlexNet',
-  AttentionPaper = 'AttentionPaper',
-  CrawlWebText = 'CrawlWebText',
-  PirateWholeInternet = 'PirateWholeInternet',
-  Overclocking = 'Overclocking',
-  BulkDiscounts = 'BulkDiscounts',
-  CopyDeepSeeksHomework = 'CopyDeepSeeksHomework',
-  AgenticWorkflows = 'AgenticWorkflows',
-  KPIDashboard = 'KPIDashboard',
-  StoreInsights = 'StoreInsights',
-}
-
-export type ResearchData = {
-  name: Researches;
-  detailsText: string;
-  flavorText: string;
-  featureUnlock?: FeatureFlag;
-  gpuUnlock?: GPUTypes;
-  llmUnlock?: LLMTypes;
-  efficiencyUpgrade?: EfficiencyUpgrade;
-}
-
-export enum EfficiencyType {
-  // BaseCost = 'BASE_COST',
-  CostMultiplier = 'COST_MULTIPLIER',
-  ProductionRate = 'PRODUCTION_RATE',
-}
-
-export type EfficiencyUpgrade = {
-  affectedLLM?: LLMTypes;
-  affectedGPU?: GPUTypes;
-  affectedTags?: ResourceTypeTags;
-  efficiencyType: EfficiencyType;
-  efficiency: number;
-}
-
-export type UnlockRequirement = {
-  resourceType?: ResourceType;
-  resourceProduction?: number;
-  resourceTotal?: number;
-  resourceSpent?: number;
-  research?: Researches;
-}
-
-export type ResearchEntry = {
-  resource: ResearchData;
-  costType: ResourceType;
-  cost: number;
-  unlockRequirement: UnlockRequirement;
-}
-
-export const ResearchTypeTable: { [K in Researches]?: ResearchData } = {
-  [Researches.ScavengeWeb3]: {
-    name: Researches.ScavengeWeb3,
-    detailsText: 'Unlocks RTX3090',
-    flavorText: 'Repurpose mining gear from your not-a-scam crypto project',
-    gpuUnlock: GPUTypes.RTX3090,
-  },
-  [Researches.FireExtinguishers]: {
-    name: Researches.FireExtinguishers,
-    detailsText: 'Unlocks RTX4090',
-    flavorText: 'Those 12VHPWR cables are a fire hazard, makes RTX4090 available',
-    gpuUnlock: GPUTypes.RTX4090,
-  },
-  [Researches.IndustrialGPUs]: {
-    name: Researches.IndustrialGPUs,
-    detailsText: 'Unlocks A6000',
-    flavorText: 'Congrats, you can now buy GPUs by the pallet instead of the piece',
-    gpuUnlock: GPUTypes.A6000,
-  },
-  [Researches.BribeNvidia]: {
-    name: Researches.BribeNvidia,
-    detailsText: 'Unlocks B300',
-    flavorText: 'Bribe Nvidia for early access to B300',
-    gpuUnlock: GPUTypes.B300,
-  },
-  [Researches.CopyAlexNet]: {
-    name: Researches.CopyAlexNet,
-    detailsText: 'Unlocks AlexNet LLM',
-    flavorText: 'Clone Alex Krizhevsky\'s github to unlock AlexNet',
-    llmUnlock: LLMTypes.ALEXNET,
-  },
-  [Researches.AttentionPaper]: {
-    name: Researches.AttentionPaper,
-    detailsText: 'Unlocks GPT1 LLM',
-    flavorText: 'Google did the thinking so we don\'t have to',
-    llmUnlock: LLMTypes.GPT1,
-  },
-  [Researches.CrawlWebText]: {
-    name: Researches.CrawlWebText,
-    detailsText: 'Unlocks GPT2 LLM',
-    flavorText: 'GPT2 is better than GPT1 mostly because it\'s way bigger',
-    llmUnlock: LLMTypes.GPT2,
-  },
-  [Researches.PirateWholeInternet]: {
-    name: Researches.PirateWholeInternet,
-    detailsText: 'Unlocks ChatGPT LLM',
-    flavorText: 'Stealing from everyone is like stealing from no one',
-    llmUnlock: LLMTypes.CHATGPT,
-  },
-  [Researches.Overclocking]: {
-    name: Researches.Overclocking,
-    detailsText: 'Increase Compute power of RTXs',
-    flavorText: 'Push those RTXs till they smoke',
-    efficiencyUpgrade: {
-      affectedTags: ResourceTypeTags.CONSUMER_GPU,
-      efficiencyType: EfficiencyType.ProductionRate,
-      efficiency: 0.1,
-    }
-  },
-  [Researches.BulkDiscounts]: {
-    name: Researches.BulkDiscounts,
-    detailsText: 'Makes all GPUs slightly cheaper',
-    flavorText: 'Save money on GPUs by buying more GPUs.',
-    efficiencyUpgrade: {
-      affectedTags: ResourceTypeTags.GPU,
-      efficiencyType: EfficiencyType.CostMultiplier,
-      efficiency: 0.15,
-    }
-  },
-  [Researches.CopyDeepSeeksHomework]: {
-    name: Researches.CopyDeepSeeksHomework,
-    detailsText: 'Makes all LLMs slightly cheaper',
-    flavorText: 'We just happened to figure out everything DeepSeek did, too.',
-    efficiencyUpgrade: {
-      affectedTags: ResourceTypeTags.LLM,
-      efficiencyType: EfficiencyType.CostMultiplier,
-      efficiency: 0.20,
-    }
-  },
-  [Researches.AgenticWorkflows]: {
-    name: Researches.AgenticWorkflows,
-    detailsText: 'Increase cash production of all LLMs',
-    flavorText: 'Mumble mumble agents mumble',
-    efficiencyUpgrade: {
-      affectedTags: ResourceTypeTags.LLM,
-      efficiencyType: EfficiencyType.ProductionRate,
-      efficiency: 0.25,
-    }
-  },
-  [Researches.KPIDashboard]: {
-    name: Researches.KPIDashboard,
-    detailsText: 'Show cash and compute details',
-    flavorText: 'Give the MBAs something to stare at so they don\'t bother you',
-    featureUnlock: FeatureFlag.KPIDashboard,
-  },
-  [Researches.StoreInsights]: {
-    name: Researches.StoreInsights,
-    detailsText: 'Show income from store items',
-    flavorText: 'Buy stuff based on more than just vibes',
-    featureUnlock: FeatureFlag.StoreInsights,
-  }
-}
 
 const defaultResearchEntry: ResearchEntry = {
   resource: {
