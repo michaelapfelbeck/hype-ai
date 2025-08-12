@@ -5,10 +5,9 @@ import {
   View,
   FlatList
 } from 'react-native';
-import { StoreEntry, ResearchEntry } from '../constants/resources';
+import { ResearchStoreEntry } from '../constants/resources';
 import { sharedStyles } from '../styles';
 import { useGameDispatch } from '../GameStateProvider';
-import StoreTile from './StoreTile';
 import ResearchTile from './ResearchTile';
 
 const styles = StyleSheet.create({
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
 
 type ResearchTileContainerProps = PropsWithChildren<{
     name: string;
-    entries: ResearchEntry[];
+    entries: ResearchStoreEntry[];
     columnCount?: number;
 }>
 
@@ -55,7 +54,7 @@ const ResearchTileContainer = ({name, entries, columnCount = 2}: ResearchTileCon
         <FlatList
           numColumns={columnCount}
           data={padData(entries, columnCount)}
-          keyExtractor={(item, idx) => item ? item.resource.name.toString() : `${name}-${idx}`}
+          keyExtractor={(item, idx) => item ? item.research.name.toString() : `${name}-${idx}`}
               renderItem={({ item }) => (
                 item ? (
                 <ResearchTile 

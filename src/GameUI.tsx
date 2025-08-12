@@ -15,8 +15,8 @@ import {
   GPUTypes, 
   GpuStore, 
   Researches, 
-  ResearchesTable, 
-  ResearchEntry,
+  ResearchStore, 
+  ResearchStoreEntry,
   FeatureFlag
 } from './constants/resources';
 import StoreTileContainer from './components/StoreTileContainer';
@@ -94,9 +94,9 @@ const GameUI = (): React.JSX.Element => {
     }
   }
 
-  const getResearchData = (research: Researches): ResearchEntry => {
-    return ResearchesTable.find((entry) => entry.resource.name === research) || {
-      resource: {
+  const getResearchData = (research: Researches): ResearchStoreEntry => {
+    return ResearchStore.find((entry) => entry.research.name === research) || {
+      research: {
         name: research,
         detailsText: 'Placeholder',
         flavorText: 'Placeholder'

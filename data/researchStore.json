@@ -1,0 +1,128 @@
+[
+  {
+    "research": "ScavengeWeb3",
+    "costType": "CASH",
+    "cost": 2,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceTotal": 1
+    }
+  },
+  {
+    "research": "FireExtinguishers",
+    "costType": "CASH",
+    "cost": 100,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceSpent": 65
+    }
+  },
+  {
+    "research": "IndustrialGPUs",
+    "costType": "CASH",
+    "cost": 8000,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceProduction": 75
+    }
+  },
+  {
+    "research": "BribeNvidia",
+    "costType": "CASH",
+    "cost": 30000,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceProduction": 200
+    }
+  },
+  {
+    "research": "CopyAlexNet",
+    "costType": "FLOPS",
+    "cost": 20,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceTotal": 5
+    }
+  },
+  {
+    "research": "AttentionPaper",
+    "costType": "CASH",
+    "cost": 200,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceSpent": 295
+    }
+  },
+  {
+    "research": "CrawlWebText",
+    "costType": "CASH",
+    "cost": 10000,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceProduction": 170
+    }
+  },
+  {
+    "research": "PirateWholeInternet",
+    "costType": "CASH",
+    "cost": 50000,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceProduction": 400
+    }
+  },
+  {
+    "research": "Overclocking",
+    "costType": "CASH",
+    "cost": 100,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceProduction": 20
+    }
+  },
+  {
+    "research": "BulkDiscounts",
+    "costType": "CASH",
+    "cost": 200,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceSpent": 500
+    }
+  },
+  {
+    "research": "CopyDeepSeeksHomework",
+    "costType": "CASH",
+    "cost": 1000,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceSpent": 1000
+    }
+  },
+  {
+    "research": "AgenticWorkflows",
+    "costType": "CASH",
+    "cost": 1000,
+    "unlockRequirement": {
+      "resourceType": "FLOPS",
+      "resourceSpent": 2000
+    }
+  },
+  {
+    "research": "KPIDashboard",
+    "costType": "CASH",
+    "cost": 5,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceSpent": 1
+    }
+  },
+  {
+    "research": "StoreInsights",
+    "costType": "CASH",
+    "cost": 10,
+    "unlockRequirement": {
+      "resourceType": "CASH",
+      "resourceSpent": 1
+    }
+  }
+]

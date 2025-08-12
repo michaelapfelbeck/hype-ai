@@ -96,8 +96,8 @@ export type UnlockRequirement = {
   research?: Researches;
 }
 
-export type ResearchEntry = {
-  resource: ResearchData;
+export type ResearchStoreEntry = {
+  research: ResearchData;
   costType: ResourceType;
   cost: number;
   unlockRequirement: UnlockRequirement;
@@ -110,12 +110,19 @@ export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = Object.assi
 import researchData from '../../data/researches.json'
 export const ResearchTypeTable: { [K in Researches]?: ResearchData } = Object.assign({}, ...researchData.map((x) => ({[x.name]: x})));
 
-// Types for JSON data structure
+// Types for JSON data structures
 type StoreEntryJSON = {
   type: GPUTypes | LLMTypes;
   costType: ResourceType;
   cost: number;
   costMultiplier: number;
+}
+
+type ResearchStoreEntryJSON = {
+  research: Researches;
+  costType: ResourceType;
+  cost: number;
+  unlockRequirement: UnlockRequirement;
 }
 
 // Transformation functions
@@ -156,145 +163,20 @@ export const LlmStore: StoreEntry[] = llmStoreData.map(entry =>
   transformLLMStoreEntry(entry as StoreEntryJSON & { type: LLMTypes })
 );
 
-const defaultResourceGenerator: ResourceGenerator = {
-  name: 'placeholder',
-  description: 'placeholder description',
-  generatesType: ResourceType.CASH,
-  productionRate: 1.0,
-  tags: [ResourceTypeTags.GPU],
-}
-
-const defaultResearchEntry: ResearchEntry = {
-  resource: {
-    name: Researches.ScavengeWeb3,
-    detailsText: 'placeholder details',
-    flavorText: 'placeholder description',
-    gpuUnlock: undefined,
-    llmUnlock: undefined,
-  },
-  costType: ResourceType.CASH,
-  cost: 0,
-  unlockRequirement: {
-    resourceType: undefined,
-    resourceProduction: 0,
-    resourceTotal: 0,
-    research: undefined,
+const transformResearchStoreEntry = (entry: ResearchStoreEntryJSON): ResearchStoreEntry => {
+  const research = ResearchTypeTable[entry.research];
+  if (!research) {
+    throw new Error(`Research type ${entry.research} not found in ResearchTypeTable`);
   }
-}
+  return {
+    research,
+    costType: entry.costType,
+    cost: entry.cost,
+    unlockRequirement: entry.unlockRequirement
+  };
+};
 
-const cashTotalUnlock = (total: number): UnlockRequirement => ({
-  resourceType: ResourceType.CASH,
-  resourceTotal: total
-})
-
-const cashSpentUnlock = (total: number): UnlockRequirement => ({
-  resourceType: ResourceType.CASH,
-  resourceSpent: total
-})
-
-const flopsTotalUnlock = (total: number): UnlockRequirement => ({
-  resourceType: ResourceType.FLOPS,
-  resourceTotal: total
-})
-
-const flopsSpentUnlock = (total: number): UnlockRequirement => ({
-  resourceType: ResourceType.FLOPS,
-  resourceSpent: total
-})
-
-const cashIncomeUnlock = (income: number): UnlockRequirement => ({
-  resourceType: ResourceType.CASH,
-  resourceProduction: income
-})
-
-const flopsIncomeUnlock = (income: number): UnlockRequirement => ({
-  resourceType: ResourceType.FLOPS,
-  resourceProduction: income
-})
-
-export const ResearchesTable: ResearchEntry[] = [
-  {
-    resource: ResearchTypeTable[Researches.ScavengeWeb3] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 2,
-    unlockRequirement: cashTotalUnlock(1)
-  },
-  {
-    resource: ResearchTypeTable[Researches.FireExtinguishers] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 100,
-    unlockRequirement: cashSpentUnlock(65)
-  },
-  {
-    resource: ResearchTypeTable[Researches.IndustrialGPUs] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 8000,
-    unlockRequirement: cashIncomeUnlock(75)
-  },
-  {
-    resource: ResearchTypeTable[Researches.BribeNvidia] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 30000,
-    unlockRequirement: cashIncomeUnlock(200)
-  },
-  {
-    resource: ResearchTypeTable[Researches.CopyAlexNet] || defaultResearchEntry.resource,
-    costType: ResourceType.FLOPS,
-    cost: 20,
-    unlockRequirement: flopsTotalUnlock(5)
-  },
-  {
-    resource: ResearchTypeTable[Researches.AttentionPaper] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 200,
-    unlockRequirement: flopsSpentUnlock(295)
-  },
-  {
-    resource: ResearchTypeTable[Researches.CrawlWebText] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 10000,
-    unlockRequirement: flopsIncomeUnlock(170)
-  },
-  {
-    resource: ResearchTypeTable[Researches.PirateWholeInternet] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 50000,
-    unlockRequirement: flopsIncomeUnlock(400)
-  },
-  {
-    resource: ResearchTypeTable[Researches.Overclocking] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 100,
-    unlockRequirement: flopsIncomeUnlock(20)
-  },
-  {
-    resource: ResearchTypeTable[Researches.BulkDiscounts] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 200,
-    unlockRequirement: cashSpentUnlock(500)
-  },
-  {
-    resource: ResearchTypeTable[Researches.CopyDeepSeeksHomework] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 1000,
-    unlockRequirement: flopsSpentUnlock(1000)
-  },
-  {
-    resource: ResearchTypeTable[Researches.AgenticWorkflows] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 1000,
-    unlockRequirement: flopsSpentUnlock(2000)
-  },
-  {
-    resource: ResearchTypeTable[Researches.KPIDashboard] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 5,
-    unlockRequirement: cashSpentUnlock(1)
-  },
-  {
-    resource: ResearchTypeTable[Researches.StoreInsights] || defaultResearchEntry.resource,
-    costType: ResourceType.CASH,
-    cost: 10,
-    unlockRequirement: cashSpentUnlock(1)
-  }
-]
+import researchStoreData from '../../data/researchStore.json';
+export const ResearchStore: ResearchStoreEntry[] = (researchStoreData as ResearchStoreEntryJSON[]).map((entry: ResearchStoreEntryJSON) => 
+  transformResearchStoreEntry(entry)
+);

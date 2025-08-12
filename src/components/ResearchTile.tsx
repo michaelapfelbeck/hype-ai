@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { ResourceType, ResearchEntry } from '../constants/resources';
+import { ResourceType, ResearchStoreEntry } from '../constants/resources';
 import { useGameState } from '../GameStateProvider';
 import { sharedStyles } from '../styles';
 
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
 });
 
 type ResearchTileProps = PropsWithChildren<{
-    entry: ResearchEntry;
-    onClick: (resource: ResearchEntry) => void;
+    entry: ResearchStoreEntry;
+    onClick: (resource: ResearchStoreEntry) => void;
 }>
 
 const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element => {
@@ -96,10 +96,10 @@ const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element =>
       style={[styles.container, !canBuy() && styles.containerDisabled]}
       onPress={() => onClick(entry)}
       disabled={!canBuy()}>
-      <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
+      <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.research.name}</Text>
       <Text style={[styles.infoText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString()}</Text>
-      <Text style={[styles.detailsText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.detailsText}</Text>
-      <Text style={[styles.flavorText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.resource.flavorText}</Text>
+      <Text style={[styles.detailsText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.research.detailsText}</Text>
+      <Text style={[styles.flavorText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.research.flavorText}</Text>
     </TouchableOpacity>
   );
 }

@@ -11,9 +11,9 @@ import {
   LLMTypes, 
   GPUTypes, 
   Researches, 
-  ResearchesTable, 
+  ResearchStore, 
   ResourceGenerator, 
-  ResearchEntry,
+  ResearchStoreEntry,
   UnlockRequirement,
   ResearchData,
   FeatureFlag,
@@ -34,7 +34,7 @@ type BuyPayload = {
 
 type GameAction = {
   type: string;
-  payload?: number | string | BuyPayload | ResearchEntry;
+  payload?: number | string | BuyPayload | ResearchStoreEntry;
 }
 
 type GameState = {
@@ -206,7 +206,7 @@ const buy = (entry: StoreEntry, count: number) => ({
   },
 });
 
-const buyResearchAction = (entry: ResearchEntry) => ({
+const buyResearchAction = (entry: ResearchStoreEntry) => ({
   type: ActionTypes.BUY_RESEARCH,
   payload: entry
 });
@@ -233,7 +233,7 @@ export const useGameDispatch = () => {
       addCash: (count: number) => dispatch(addCash(count)),
       addFlops: (count: number) => dispatch(addFlops(count)),
       buyResource: (entry: StoreEntry, count: number) => dispatch(buy(entry, count)),
-      buyResearch: (entry: ResearchEntry) => dispatch(buyResearchAction(entry)),
+      buyResearch: (entry: ResearchStoreEntry) => dispatch(buyResearchAction(entry)),
     }),
     [dispatch]
   );
@@ -259,7 +259,7 @@ function update(state: GameState, debugTrace: boolean = false): GameState {
 }
 
 // TODO break out different kinds of researches into different functions
-const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
+const buyResearch = (state: GameState, entry: ResearchStoreEntry): GameState => {
   if (!canAfford(entry.costType, entry.cost, state)) {
     return state;
   }
@@ -278,27 +278,27 @@ const buyResearch = (state: GameState, entry: ResearchEntry): GameState => {
       break;
   }
   let researches = state.purchasedResearch;
-  researches.push(entry.resource.name);
+  researches.push(entry.research.name);
   let availableResearch = state.availableResearch;
-  const index = availableResearch.indexOf(entry.resource.name);
+  const index = availableResearch.indexOf(entry.research.name);
   if (index > -1) {
     availableResearch.splice(index, 1);
   }
   let gpus = state.unlockedGPUs;
   let llms = state.unlockedLLMs;
-  if (entry.resource.gpuUnlock) {
-    gpus.push(entry.resource.gpuUnlock);
+  if (entry.research.gpuUnlock) {
+    gpus.push(entry.research.gpuUnlock);
   }
-  if (entry.resource.llmUnlock) {
-    llms.push(entry.resource.llmUnlock);
+  if (entry.research.llmUnlock) {
+    llms.push(entry.research.llmUnlock);
   }
   
   let newCashRate = getProductionRate(ResourceType.CASH, state.generators, researches);
   let newFlopsRate = getProductionRate(ResourceType.FLOPS, state.generators, researches);
 
   let features = state.purchasedFeatures;
-  if (entry.resource.featureUnlock) {
-    features.push(entry.resource.featureUnlock);
+  if (entry.research.featureUnlock) {
+    features.push(entry.research.featureUnlock);
   }
 
   return {...state, 
@@ -422,17 +422,17 @@ const getNumberOwned = (generators: OwnedResource[], storeEntry: StoreEntry): nu
 
 const getAvailableResearch = (state: GameState): Researches[] => {
   const availableResearch: Researches[] = state.availableResearch;
-  for (const research of ResearchesTable) {
-    if (availableResearch.includes(research.resource.name)) {
+  for (const research of ResearchStore) {
+    if (availableResearch.includes(research.research.name)) {
       continue; // already in available research
     }
-    if (researchPurchased(research.resource.name, state.purchasedResearch)) {
+    if (researchPurchased(research.research.name, state.purchasedResearch)) {
       continue; // already purchased
     }
     if (!unlockRequirementMet(research.unlockRequirement, state)) {
       continue; // requirements not met
     }
-    availableResearch.push(research.resource.name);
+    availableResearch.push(research.research.name);
   }
   return availableResearch;
 };
