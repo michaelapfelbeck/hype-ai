@@ -151,6 +151,11 @@ export const GpuStore: StoreEntry[] = gpuStoreData.map(entry =>
   transformGPUStoreEntry(entry as StoreEntryJSON & { type: GPUTypes })
 );
 
+import llmStoreData from '../../data/llmStore.json';
+export const LlmStore: StoreEntry[] = llmStoreData.map(entry => 
+  transformLLMStoreEntry(entry as StoreEntryJSON & { type: LLMTypes })
+);
+
 const defaultResourceGenerator: ResourceGenerator = {
   name: 'placeholder',
   description: 'placeholder description',
@@ -158,33 +163,6 @@ const defaultResourceGenerator: ResourceGenerator = {
   productionRate: 1.0,
   tags: [ResourceTypeTags.GPU],
 }
-
-export const LlmStore: StoreEntry[] = [
-  {
-    resource: LLMTypeTable[LLMTypes.ALEXNET] || defaultResourceGenerator,
-    costType: ResourceType.FLOPS,
-    cost: 40,
-    costMultiplier: 0.2,
-  },
-  {
-    resource: LLMTypeTable[LLMTypes.GPT1] || defaultResourceGenerator,
-    costType: ResourceType.FLOPS,
-    cost: 200,
-    costMultiplier: 0.25,
-  },
-  {
-    resource: LLMTypeTable[LLMTypes.GPT2] || defaultResourceGenerator,
-    costType: ResourceType.FLOPS,
-    cost: 2000,
-    costMultiplier: 0.3,
-  },
-  {
-    resource: LLMTypeTable[LLMTypes.CHATGPT] || defaultResourceGenerator,
-    costType: ResourceType.FLOPS,
-    cost: 10000,
-    costMultiplier: 0.4,
-  }
-]
 
 const defaultResearchEntry: ResearchEntry = {
   resource: {

@@ -1,0 +1,26 @@
+[
+  {
+    "type": "ALEXNET",
+    "costType": "FLOPS",
+    "cost": 40,
+    "costMultiplier": 0.2
+  },
+  {
+    "type": "GPT1",
+    "costType": "FLOPS",
+    "cost": 200,
+    "costMultiplier": 0.25
+  },
+  {
+    "type": "GPT2",
+    "costType": "FLOPS",
+    "cost": 2000,
+    "costMultiplier": 0.3
+  },
+  {
+    "type": "CHATGPT",
+    "costType": "FLOPS",
+    "cost": 10000,
+    "costMultiplier": 0.4
+  }
+]
