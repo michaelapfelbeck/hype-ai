@@ -18,9 +18,9 @@ Gameplay-wise you're buying GPUs for compute power to run AI models to earn mone
 
 ## Phase 2 - Conquest
 
-In this phase you've gone public as a company. Your building the AI infrastructure that powers the new world you're creating. While simultaneously foisting unempoyment on the masses and engaging in corporate manouvering to take out competing firms.
+In this phase youcompany just went public as a company. Your building the AI infrastructure that powers the 'AGI' dominated world you're creating. Your original crypto scheme is back in the form of anthro-coin: the proof of humanity token you're foisting on an unwilling public.
 
-Gameplay wise you're building cororate offices and datacenters to exand your office. While also building hype around your projects.
+Build your datacenters, take over industry, dominate the humans.
 
 ## Phase 3 - Bunker
 

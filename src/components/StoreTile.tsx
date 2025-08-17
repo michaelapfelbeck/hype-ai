@@ -125,7 +125,7 @@ const StoreTile = ({entry, onClick}: StoreTileProps): React.JSX.Element => {
 
   return (
     <View style={[styles.container, !canBuy(1) && styles.containerDisabled]}>
-      <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.resource.name}</Text>
+      <Text style={[styles.titleText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.title ?? entry.resource.name}</Text>
       <Text style={[styles.infoText, canBuy(1) ? {} : sharedStyles.textDisabled]} numberOfLines={1}>Owned: {getNumberOwned()}</Text>
       {
         hasFeature(FeatureFlag.StoreInsights, purchasedFeatures) && 

@@ -23,6 +23,7 @@ import StoreTileContainer from './components/StoreTileContainer';
 import ResearchTileContainer from './components/ResearchTileContainer';
 import GameButton, { ButtonSize } from './components/GameButton';
 import { hasFeature } from './helpers';
+import Constants from './constants/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -109,9 +110,9 @@ const GameUI = (): React.JSX.Element => {
 
   const getStoreWidth = (): number => {
     if (orientation === 'portrait') {
-      return 2;
+      return Constants.portraitStoreColumns;
     } else {
-      return 3;
+      return Constants.widescreenStoreColumns;
     }
   }
 

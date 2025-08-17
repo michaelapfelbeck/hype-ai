@@ -47,12 +47,12 @@ export enum Researches {
   AgenticWorkflows = 'AgenticWorkflows',
   KPIDashboard = 'KPIDashboard',
   StoreInsights = 'StoreInsights',
+  Phase2 = 'Phase2',
 }
 
 export enum EfficiencyType {
-  // BaseCost = 'BASE_COST',
-  CostMultiplier = 'COST_MULTIPLIER',
-  ProductionRate = 'PRODUCTION_RATE',
+  CostMultiplier = 'CostMultiplier',
+  ProductionRate = 'ProductionRate',
 }
 
 export type ResourceGenerator = {
@@ -64,6 +64,7 @@ export type ResourceGenerator = {
 }
 
 export type StoreEntry = {
+  title?: string;
   resource: ResourceGenerator;
   costType: ResourceType;
   cost: number;
@@ -97,6 +98,7 @@ export type UnlockRequirement = {
 }
 
 export type ResearchStoreEntry = {
+  title?: string;
   research: ResearchData;
   costType: ResourceType;
   cost: number;
@@ -112,6 +114,7 @@ export const ResearchTypeTable: { [K in Researches]?: ResearchData } = Object.as
 
 // Types for JSON data structures
 type StoreEntryJSON = {
+  title?: string;
   type: GPUTypes | LLMTypes;
   costType: ResourceType;
   cost: number;
@@ -119,6 +122,7 @@ type StoreEntryJSON = {
 }
 
 type ResearchStoreEntryJSON = {
+  title?: string;
   research: Researches;
   costType: ResourceType;
   cost: number;
@@ -132,6 +136,7 @@ const transformGPUStoreEntry = (entry: StoreEntryJSON & { type: GPUTypes }): Sto
     throw new Error(`GPU type ${entry.type} not found in GPUTypesTable`);
   }
   return {
+    title: entry.title,
     resource,
     costType: entry.costType,
     cost: entry.cost,
@@ -145,6 +150,7 @@ const transformLLMStoreEntry = (entry: StoreEntryJSON & { type: LLMTypes }): Sto
     throw new Error(`LLM type ${entry.type} not found in LLMTypeTable`);
   }
   return {
+    title: entry.title,
     resource,
     costType: entry.costType,
     cost: entry.cost,
@@ -169,6 +175,7 @@ const transformResearchStoreEntry = (entry: ResearchStoreEntryJSON): ResearchSto
     throw new Error(`Research type ${entry.research} not found in ResearchTypeTable`);
   }
   return {
+    title: entry.title,
     research,
     costType: entry.costType,
     cost: entry.cost,

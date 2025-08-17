@@ -1,23 +1,27 @@
 [
   {
+    "title": "RTX 3090",
     "type": "RTX3090",
     "costType": "CASH",
     "cost": 8,
     "costMultiplier": 0.2
   },
   {
+    "title": "RTX 4090",
     "type": "RTX4090",
     "costType": "CASH",
     "cost": 50,
     "costMultiplier": 0.25
   },
   {
+    "title": "A6000",
     "type": "A6000",
     "costType": "CASH",
     "cost": 500,
     "costMultiplier": 0.3
   },
   {
+    "title": "B300",
     "type": "B300",
     "costType": "CASH",
     "cost": 4500,

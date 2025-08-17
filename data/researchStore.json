@@ -1,6 +1,7 @@
 [
   {
     "research": "ScavengeWeb3",
+    "title": "Scavenge Web 3",
     "costType": "CASH",
     "cost": 2,
     "unlockRequirement": {
@@ -10,6 +11,7 @@
   },
   {
     "research": "FireExtinguishers",
+    "title": "Fire Extinguishers",
     "costType": "CASH",
     "cost": 100,
     "unlockRequirement": {
@@ -19,6 +21,7 @@
   },
   {
     "research": "IndustrialGPUs",
+    "title": "Industrial GPUs",
     "costType": "CASH",
     "cost": 8000,
     "unlockRequirement": {
@@ -28,6 +31,7 @@
   },
   {
     "research": "BribeNvidia",
+    "title": "Bribe Nvidia",
     "costType": "CASH",
     "cost": 30000,
     "unlockRequirement": {
@@ -37,6 +41,7 @@
   },
   {
     "research": "CopyAlexNet",
+    "title": "Copy AlexNet",
     "costType": "FLOPS",
     "cost": 20,
     "unlockRequirement": {
@@ -46,6 +51,7 @@
   },
   {
     "research": "AttentionPaper",
+    "title": "Attention Paper",
     "costType": "CASH",
     "cost": 200,
     "unlockRequirement": {
@@ -55,6 +61,7 @@
   },
   {
     "research": "CrawlWebText",
+    "title": "Crawl Web Text",
     "costType": "CASH",
     "cost": 10000,
     "unlockRequirement": {
@@ -64,6 +71,7 @@
   },
   {
     "research": "PirateWholeInternet",
+    "title": "Pirate Whole Internet",
     "costType": "CASH",
     "cost": 50000,
     "unlockRequirement": {
@@ -73,6 +81,7 @@
   },
   {
     "research": "Overclocking",
+    "title": "Overclocking",
     "costType": "CASH",
     "cost": 100,
     "unlockRequirement": {
@@ -82,6 +91,7 @@
   },
   {
     "research": "BulkDiscounts",
+    "title": "Bulk Discounts",
     "costType": "CASH",
     "cost": 200,
     "unlockRequirement": {
@@ -91,6 +101,7 @@
   },
   {
     "research": "CopyDeepSeeksHomework",
+    "title": "Copy DeepSeek's Homework",
     "costType": "CASH",
     "cost": 1000,
     "unlockRequirement": {
@@ -100,6 +111,7 @@
   },
   {
     "research": "AgenticWorkflows",
+    "title": "Agentic Workflows",
     "costType": "CASH",
     "cost": 1000,
     "unlockRequirement": {
@@ -109,6 +121,7 @@
   },
   {
     "research": "KPIDashboard",
+    "title": "KPI Dashboard",
     "costType": "CASH",
     "cost": 5,
     "unlockRequirement": {
@@ -118,11 +131,21 @@
   },
   {
     "research": "StoreInsights",
+    "title": "Store Insights",
     "costType": "CASH",
     "cost": 10,
     "unlockRequirement": {
       "resourceType": "CASH",
       "resourceSpent": 1
+    }
+  },
+  {
+    "research": "Phase2",
+    "title": "IPO",
+    "costType": "CASH",
+    "cost": 250000,
+    "unlockRequirement": {
+      "research": "ScavengeWeb3"
     }
   }
 ]

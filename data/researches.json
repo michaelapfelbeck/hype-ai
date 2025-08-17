@@ -98,5 +98,10 @@
     "detailsText": "Show income from store items",
     "flavorText": "Buy stuff based on more than just vibes",
     "featureUnlock": "StoreInsights"
+  },
+  {
+    "name": "Phase2",
+    "detailsText": "Changes gameplay",
+    "flavorText": "Go public and become the next big thing"
   }
 ]

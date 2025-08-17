@@ -20,7 +20,8 @@ import {
   EfficiencyType
 } from './constants/resources';
 
-const DEBUG: boolean = false;
+const DEBUG: boolean = true;
+const DEBUG_STARTING_FUNDS: number = 100000;
 
 type OwnedResource = {
   resource: ResourceGenerator;
@@ -58,9 +59,9 @@ const initialState = (): GameState => {
   if (DEBUG) {
     return {
       saveTimer: 0,
-      cashTotal: 100000,
+      cashTotal: DEBUG_STARTING_FUNDS,
       cashRate: 0,
-      flopsTotal: 100000,
+      flopsTotal: DEBUG_STARTING_FUNDS,
       flopsRate: 0,
       totalCashSpent: 0,
       totalFlopSpent: 0,
@@ -387,8 +388,13 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
 }
 
 const getProductionRate = (resourceType: ResourceType, generators: OwnedResource[], purchasedResearch: Researches[]): number => {
+  // console.log(`calculating production rate for ${resourceType}`);
+  // console.log(`resources: ${JSON.stringify(generators)}`);
+  // console.log(`purchased research: ${JSON.stringify(purchasedResearch)}`);
   let filteredGenerators = generators.filter((g) => g.resource.generatesType == resourceType);
   let filteredResearch: ResearchData[] = getEfficiencyResearchesOfType(EfficiencyType.ProductionRate, purchasedResearch);
+  // console.log(`filtered resource generators: ${JSON.stringify(filteredGenerators)}`);
+  // console.log(`filtered research: ${JSON.stringify(filteredResearch)}`);
 
   let totalProduction: number = 0
   for (const generator of filteredGenerators) {

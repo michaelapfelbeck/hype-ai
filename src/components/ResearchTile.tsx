@@ -96,7 +96,7 @@ const ResearchTile = ({entry, onClick}: ResearchTileProps): React.JSX.Element =>
       style={[styles.container, !canBuy() && styles.containerDisabled]}
       onPress={() => onClick(entry)}
       disabled={!canBuy()}>
-      <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.research.name}</Text>
+      <Text style={[styles.titleText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{entry.title ?? entry.research.name}</Text>
       <Text style={[styles.infoText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={1}>{getCostString()}</Text>
       <Text style={[styles.detailsText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.research.detailsText}</Text>
       <Text style={[styles.flavorText, canBuy() ? {} : sharedStyles.textDisabled]} numberOfLines={3}>{entry.research.flavorText}</Text>

@@ -42,6 +42,9 @@ export const getCostReduction = (base: number, efficiency: number): number => {
 }
 
 export const getEfficiencyResearchesOfType = (efficiencyType: EfficiencyType, purchasedResearch: Researches[]): ResearchData[] => {
+  // console.log(`getting efficiency researches of type ${efficiencyType}`);
+  // console.log(`based on purchased research ${JSON.stringify(purchasedResearch)}`);
+  // console.log(`based on type table ${JSON.stringify(ResearchTypeTable)}`);
   return purchasedResearch
     .map((r) => ResearchTypeTable[r])
     .filter((rd): rd is ResearchData => rd !== undefined)
