@@ -143,7 +143,7 @@
     "research": "Phase2",
     "title": "IPO",
     "costType": "CASH",
-    "cost": 250000,
+    "cost": 1,
     "unlockRequirement": {
       "research": "ScavengeWeb3"
     }

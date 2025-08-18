@@ -21,6 +21,8 @@ export enum GPUTypes {
 export enum FeatureFlag {
   KPIDashboard = 'KPIDashboard',
   StoreInsights = 'StoreInsights',
+  Datacenters = 'Datacenters',
+  MarketingDepartment = 'MarketingDepartment'
 }
 
 export enum ResourceTypeTags {
@@ -48,6 +50,9 @@ export enum Researches {
   KPIDashboard = 'KPIDashboard',
   StoreInsights = 'StoreInsights',
   Phase2 = 'Phase2',
+  DeclareAGI = 'DeclareAGI',
+  Datacenters = 'Datacenters',
+  MarketingDepartment = 'MarketingDepartment'
 }
 
 export enum EfficiencyType {
