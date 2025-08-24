@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex:  1,
+    maxWidth: 225,
     borderRadius: 2,
     padding: 4,
     margin: 2,

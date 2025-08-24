@@ -1,6 +1,7 @@
 export enum ResourceType {
   CASH = 'CASH',
   FLOPS = "FLOPS",
+  AGENTS = "AGENTS",
   HYPE = "HYPE"
 }
 
@@ -18,11 +19,17 @@ export enum GPUTypes {
   B300 = 'B300',
 }
 
+export enum MarketingTypes {
+  LINKEDIN_LUNATIC = 'LINKEDIN_LUNATIC',
+  
+}
+
 export enum FeatureFlag {
   KPIDashboard = 'KPIDashboard',
   StoreInsights = 'StoreInsights',
   Datacenters = 'Datacenters',
   MarketingDepartment = 'MarketingDepartment'
+  Phase2 = 'Phase2'
 }
 
 export enum ResourceTypeTags {
@@ -52,7 +59,6 @@ export enum Researches {
   Phase2 = 'Phase2',
   DeclareAGI = 'DeclareAGI',
   Datacenters = 'Datacenters',
-  MarketingDepartment = 'MarketingDepartment'
 }
 
 export enum EfficiencyType {

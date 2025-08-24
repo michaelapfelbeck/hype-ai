@@ -1,0 +1,14 @@
+[
+  {
+    "name": "DeclareAGI",
+    "detailsText": "Changes gameplay",
+    "flavorText": "The hype is real!",
+    "featureUnlock": "MarketingDepartment"
+  },
+  {
+    "name": "Datacenters",
+    "detailsText": "Changes gameplay",
+    "flavorText": "Buy by the building instead of individual GPUs and LLMs",
+    "featureUnlock": "Datacenters"
+  }
+]

@@ -1,0 +1,15 @@
+Phase 2/IPO:
+IPO - unlocks data centers and marketing dept
+
+phase 2 resource loop:
+datacenter loop:
+buy datacenters to increase # AIs hosted
+datacenters require power and water
+build power plants
+coerce governments to give you water rights
+
+marketing loop:
+linkedin lunatics, podcast profiteers, and credulous journalists all generate hype
+spend hype to take over human industry
+industries require hype upkeep, otherwise they revert to human employees
+hype takeovers are limited by datacenter capacity

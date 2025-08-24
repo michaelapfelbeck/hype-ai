@@ -102,6 +102,7 @@
   {
     "name": "Phase2",
     "detailsText": "Changes gameplay",
-    "flavorText": "Go public and become the next big thing"
+    "flavorText": "Go public and become the next big thing",
+    "featureUnlock": "Phase2"
   }
 ]
