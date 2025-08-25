@@ -1,0 +1,23 @@
+[
+  {
+    "title": "LinkedIn Lunatic",
+    "type": "LINKEDIN_LUNATIC",
+    "costType": "CASH",
+    "cost": 40,
+    "costMultiplier": 0.2
+  },
+  {
+    "title": "Podcast Profiteer",
+    "type": "PODCAST_PROFITEER",
+    "costType": "CASH",
+    "cost": 200,
+    "costMultiplier": 0.25
+  },
+  {
+    "title": "Credulous Journalist",
+    "type": "CREDULOUS_JOURNALIST",
+    "costType": "CASH",
+    "cost": 2000,
+    "costMultiplier": 0.3
+  }
+]

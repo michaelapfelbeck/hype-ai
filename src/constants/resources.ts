@@ -21,14 +21,15 @@ export enum GPUTypes {
 
 export enum MarketingTypes {
   LINKEDIN_LUNATIC = 'LINKEDIN_LUNATIC',
-  
+  PODCAST_PROFITEER = 'PODCAST_PROFITEER',
+  CREDULOUS_JOURNALIST = 'CREDULOUS_JOURNALIST'
 }
 
 export enum FeatureFlag {
   KPIDashboard = 'KPIDashboard',
   StoreInsights = 'StoreInsights',
   Datacenters = 'Datacenters',
-  MarketingDepartment = 'MarketingDepartment'
+  MarketingDepartment = 'MarketingDepartment',
   Phase2 = 'Phase2'
 }
 
@@ -59,6 +60,9 @@ export enum Researches {
   Phase2 = 'Phase2',
   DeclareAGI = 'DeclareAGI',
   Datacenters = 'Datacenters',
+  Posters = 'Posters',
+  Podcasts = 'Podcasts',
+  Fools = 'Fools',
 }
 
 export enum EfficiencyType {
@@ -89,6 +93,7 @@ export type ResearchData = {
   featureUnlock?: FeatureFlag;
   gpuUnlock?: GPUTypes;
   llmUnlock?: LLMTypes;
+  marketingUnlock?: MarketingTypes;
   efficiencyUpgrade?: EfficiencyUpgrade;
 }
 
@@ -120,13 +125,18 @@ import gpuData from '../../data/gpus.json';
 export const GPUTypesTable: { [K in GPUTypes]?: ResourceGenerator } = Object.assign({}, ...gpuData.map((x) => ({[x.name]: x})));
 import llmData from '../../data/llms.json';
 export const LLMTypeTable: { [K in LLMTypes]?: ResourceGenerator } = Object.assign({}, ...llmData.map((x) => ({[x.name]: x})));
+import marketingData from '../../data/marketing.json';
+export const MarketingTypeTable: { [K in MarketingTypes]?: ResourceGenerator } = Object.assign({}, ...marketingData.map((x) => ({[x.name]: x})));
 import researchData from '../../data/researches.json'
 export const ResearchTypeTable: { [K in Researches]?: ResearchData } = Object.assign({}, ...researchData.map((x) => ({[x.name]: x})));
+
+// console.log(`marketingData: ${JSON.stringify(marketingData)}`);
+// console.log(`MarketingTypeTable: ${JSON.stringify(MarketingTypeTable)}`);
 
 // Types for JSON data structures
 type StoreEntryJSON = {
   title?: string;
-  type: GPUTypes | LLMTypes;
+  type: GPUTypes | LLMTypes | MarketingTypes;
   costType: ResourceType;
   cost: number;
   costMultiplier: number;
@@ -169,6 +179,20 @@ const transformLLMStoreEntry = (entry: StoreEntryJSON & { type: LLMTypes }): Sto
   };
 };
 
+const transformMarketingStoreEntry = (entry: StoreEntryJSON & { type: MarketingTypes }): StoreEntry => {
+  const resource = MarketingTypeTable[entry.type];
+  if (!resource) {
+    throw new Error(`Marketing type ${entry.type} not found in MarketingTypeTable`);
+  }
+  return {
+    title: entry.title,
+    resource,
+    costType: entry.costType,
+    cost: entry.cost,
+    costMultiplier: entry.costMultiplier
+  };
+};
+
 // Load and transform store data
 import gpuStoreData from '../../data/gpuStore.json';
 export const GpuStore: StoreEntry[] = gpuStoreData.map(entry => 
@@ -180,6 +204,13 @@ export const LlmStore: StoreEntry[] = llmStoreData.map(entry =>
   transformLLMStoreEntry(entry as StoreEntryJSON & { type: LLMTypes })
 );
 
+import marketingStoreData from '../../data/marketingStore.json';
+export const MarketingStore: StoreEntry[] = marketingStoreData.map(entry => 
+  transformMarketingStoreEntry(entry as StoreEntryJSON & { type: MarketingTypes })
+);
+
+// console.log(`marketingStoreData: ${JSON.stringify(marketingStoreData)}`);
+// console.log(`MarketingStore: ${JSON.stringify(MarketingStore)}`);
 const transformResearchStoreEntry = (entry: ResearchStoreEntryJSON): ResearchStoreEntry => {
   const research = ResearchTypeTable[entry.research];
   if (!research) {

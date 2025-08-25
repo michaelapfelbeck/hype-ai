@@ -147,5 +147,50 @@
     "unlockRequirement": {
       "research": "ScavengeWeb3"
     }
+  },
+  {
+    "research": "DeclareAGI",
+    "title": "Declare AGI",
+    "costType": "CASH",
+    "cost": 1,
+    "unlockRequirement": {
+      "research": "Phase2"
+    }
+  },
+  {
+    "research": "Datacenters",
+    "title": "Datacenters",
+    "costType": "CASH",
+    "cost": 1,
+    "unlockRequirement": {
+      "research": "DeclareAGI"
+    }
+  },
+  {
+    "research": "Posters",
+    "title": "Posters",
+    "costType": "CASH",
+    "cost": 1,
+    "unlockRequirement": {
+      "research": "DeclareAGI"
+    }
+  },
+  {
+    "research": "Podcasts",
+    "title": "Podcasts",
+    "costType": "CASH",
+    "cost": 1,
+    "unlockRequirement": {
+      "research": "Posters"
+    }
+  },
+  {
+    "research": "Fools",
+    "title": "Fools",
+    "costType": "CASH",
+    "cost": 1,
+    "unlockRequirement": {
+      "research": "Podcasts"
+    }
   }
 ]

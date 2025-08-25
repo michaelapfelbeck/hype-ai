@@ -17,7 +17,10 @@ import {
   Researches, 
   ResearchStore, 
   ResearchStoreEntry,
-  FeatureFlag
+  FeatureFlag,
+  MarketingTypeTable,
+  MarketingTypes,
+  MarketingStore
 } from './constants/resources';
 import StoreTileContainer from './components/StoreTileContainer';
 import ResearchTileContainer from './components/ResearchTileContainer';
@@ -64,6 +67,21 @@ const GameUI = (): React.JSX.Element => {
     updateOrientation();
     return () => window.removeEventListener('resize', updateOrientation);
   }, []);
+
+  const getMarketingStoreData = (marketing: MarketingTypes): StoreEntry => {
+    return MarketingStore.find((entry) => entry.resource.name === marketing) || {
+      resource: {
+        name: marketing,
+        description: 'Placeholder',
+        generatesType: ResourceType.HYPE,
+        productionRate: 1,
+        tags: [],
+      },
+      costType: ResourceType.CASH,
+      cost: 1,
+      costMultiplier: 1,
+    }
+  }
 
   const getLLMStoreData = (llm: LLMTypes): StoreEntry => {
     return LlmStore.find((entry) => entry.resource.name === llm) ||   {
@@ -116,6 +134,36 @@ const GameUI = (): React.JSX.Element => {
     }
   }
 
+  const getBusinessStats = () => {
+    if (hasFeature(FeatureFlag.MarketingDepartment, gameState.purchasedFeatures)) {
+      return {
+        cash: {
+          title: 'Cash',
+          total: `Total: ${gameState.cashTotal.toFixed(2)}`,
+          income: `Income/s: ${gameState.cashRate.toFixed(2)}`,
+        },
+        hype: {
+          title: 'Hype',
+          total: `Total: ${gameState.hypeTotal.toFixed(2)}`,
+          income: `Income/s: ${gameState.hypeRate.toFixed(2)}`,
+        },
+      };
+    }
+
+    return {
+      cash: {
+        title: 'Cash',
+          total: `Total: ${gameState.cashTotal.toFixed(2)}`,
+          income: `Income/s: ${gameState.cashRate.toFixed(2)}`,
+      },
+      compute: {
+        title: 'Compute',
+        total: `Total: ${gameState.flopsTotal.toFixed(2)}`,
+        income: `Income/s: ${gameState.flopsRate.toFixed(2)}`,
+      },
+    };
+  };
+
   return (
     <View style={styles.container}>
       <View style={sharedStyles.uiSegmentContainer}>
@@ -134,16 +182,13 @@ const GameUI = (): React.JSX.Element => {
           <Text style={sharedStyles.segmentHeaderText}>Business</Text>
           <View style={sharedStyles.segmentHeaderSeperator}/>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View style={{flexShrink: 0, paddingRight: 10}}>
-              <Text style={{fontWeight: '500'}}>Cash</Text>
-              <Text>Total: ${gameState.cashTotal.toFixed(2)}</Text>
-              <Text>Income/s: ${gameState.cashRate.toFixed(2)}</Text>
-            </View>
-            <View style={{flexShrink: 0, paddingLeft: 10}}>
-              <Text style={{fontWeight: '500'}}>Compute</Text>
-              <Text>Total: {gameState.flopsTotal.toFixed(0)}</Text>
-              <Text>Income/s: {gameState.flopsRate.toFixed(2)}</Text>
-            </View>
+            {Object.entries(getBusinessStats()).map(([key, value]) => (
+              <View key={key} style={{flexShrink: 0, paddingRight: 10}}>
+                <Text style={{fontWeight: '500'}}>{value.title}</Text>
+                <Text>{value.total}</Text>
+                <Text>{value.income}</Text>
+              </View>
+            ))}
           </View>
         </View>
       }
@@ -164,6 +209,15 @@ const GameUI = (): React.JSX.Element => {
           description="Large Language Models (LLMs) generate cash to fund your startup."
           columnCount={getStoreWidth()}
           entries={gameState.unlockedLLMs.map((llm) => getLLMStoreData(llm))}
+        />
+      }
+      {
+        gameState.unlockedMarketing.length > 0 &&
+        <StoreTileContainer 
+          name="Marketing"
+          description="Marketing campaigns generate hype for your startup."
+          columnCount={getStoreWidth()}
+          entries={gameState.unlockedMarketing.map((marketing) => getMarketingStoreData(marketing))}
         />
       }
       {

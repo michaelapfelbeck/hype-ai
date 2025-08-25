@@ -104,5 +104,35 @@
     "detailsText": "Changes gameplay",
     "flavorText": "Go public and become the next big thing",
     "featureUnlock": "Phase2"
+  },
+  {
+    "name": "DeclareAGI",
+    "detailsText": "Changes gameplay",
+    "flavorText": "The hype is real!",
+    "featureUnlock": "MarketingDepartment"
+  },
+  {
+    "name": "Datacenters",
+    "detailsText": "Changes gameplay",
+    "flavorText": "Burn cash by the building instead of individual GPU and LLM",
+    "featureUnlock": "Datacenters"
+  },
+  {
+    "name": "Posters",
+    "detailsText": "Unlocks Linkedin Lunatics",
+    "flavorText": "They're like the most annoying bizdev guy you ever met, with a concussion",
+    "marketingUnlock": "LINKEDIN_LUNATIC"
+  },
+  {
+    "name": "Podcasts",
+    "detailsText": "Unlocks Podcast Profiteers",
+    "flavorText": "Bros will say anything you want",
+    "marketingUnlock": "PODCAST_PROFITEER"
+  },
+  {
+    "name": "Fools",
+    "detailsText": "Unlocks Credulous Journalists",
+    "flavorText": "The thermonuclear weapon of marketing",
+    "marketingUnlock": "CREDULOUS_JOURNALIST"
   }
 ]

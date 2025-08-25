@@ -17,7 +17,8 @@ import {
   UnlockRequirement,
   ResearchData,
   FeatureFlag,
-  EfficiencyType
+  EfficiencyType,
+  MarketingTypes
 } from './constants/resources';
 
 const DEBUG: boolean = true;
@@ -45,10 +46,14 @@ type GameState = {
   cashRate: number;
   flopsTotal: number;
   flopsRate: number;
+  hypeTotal: number;
+  hypeRate: number;
   totalCashSpent: number;
   totalFlopSpent: number;
+  totalHypeSpent: number;
   unlockedGPUs: GPUTypes[];
   unlockedLLMs: LLMTypes[];
+  unlockedMarketing: MarketingTypes[];
   availableResearch: Researches[];
   purchasedResearch: Researches[];
   purchasedFeatures: FeatureFlag[];
@@ -63,10 +68,14 @@ const initialState = (): GameState => {
       cashRate: 0,
       flopsTotal: DEBUG_STARTING_FUNDS,
       flopsRate: 0,
+      hypeTotal: DEBUG_STARTING_FUNDS,
+      hypeRate: 0,
       totalCashSpent: 0,
       totalFlopSpent: 0,
+      totalHypeSpent: 0,
       unlockedGPUs: [],
       unlockedLLMs: [],
+      unlockedMarketing: [],
       availableResearch: [],
       purchasedResearch: [],
       purchasedFeatures: [],
@@ -79,10 +88,14 @@ const initialState = (): GameState => {
       cashRate: 0,
       flopsTotal: 0,
       flopsRate: 0,
+      hypeTotal: 0,
+      hypeRate: 0,
       totalCashSpent: 0,
       totalFlopSpent: 0,
+      totalHypeSpent: 0,
       unlockedGPUs: [],
       unlockedLLMs: [],
+      unlockedMarketing: [],
       availableResearch: [],
       purchasedResearch: [],
       purchasedFeatures: [],
@@ -246,6 +259,7 @@ function update(state: GameState, debugTrace: boolean = false): GameState {
   }
   const cashPerTick = state.cashRate * (Constants.tickInterval / 1000);
   const flopsPerTick = state.flopsRate * (Constants.tickInterval / 1000);
+  const hypePerTick = state.hypeRate * (Constants.tickInterval / 1000);
 
   //console.log(`there are ${state.generators.length} generators`);
   const availableResearch: Researches[] = getAvailableResearch(state);
@@ -255,6 +269,7 @@ function update(state: GameState, debugTrace: boolean = false): GameState {
     saveTimer: state.saveTimer + Constants.tickInterval,
     cashTotal: state.cashTotal + cashPerTick,
     flopsTotal: state.flopsTotal + flopsPerTick,
+    hypeTotal: state.hypeTotal + hypePerTick,
     availableResearch: availableResearch,
   };
 }
@@ -266,8 +281,10 @@ const buyResearch = (state: GameState, entry: ResearchStoreEntry): GameState => 
   }
   let newCash = state.cashTotal;
   let newFlops = state.flopsTotal;
+  let newHype = state.hypeTotal;
   let cashSpent = state.totalCashSpent;
   let flopsSpent = state.totalFlopSpent;
+  let hypeSpent = state.totalHypeSpent;
   switch (entry.costType) {
     case ResourceType.CASH:
       newCash -= entry.cost;
@@ -276,6 +293,10 @@ const buyResearch = (state: GameState, entry: ResearchStoreEntry): GameState => 
     case ResourceType.FLOPS:
       newFlops -= entry.cost;
       flopsSpent += entry.cost;
+      break;
+    case ResourceType.HYPE:
+      newHype -= entry.cost;
+      hypeSpent += entry.cost;
       break;
   }
   let researches = state.purchasedResearch;
@@ -287,15 +308,20 @@ const buyResearch = (state: GameState, entry: ResearchStoreEntry): GameState => 
   }
   let gpus = state.unlockedGPUs;
   let llms = state.unlockedLLMs;
+  let marketing = state.unlockedMarketing;
   if (entry.research.gpuUnlock) {
     gpus.push(entry.research.gpuUnlock);
   }
   if (entry.research.llmUnlock) {
     llms.push(entry.research.llmUnlock);
   }
-  
+  if (entry.research.marketingUnlock) {
+    marketing.push(entry.research.marketingUnlock);
+  }
+
   let newCashRate = getProductionRate(ResourceType.CASH, state.generators, researches);
   let newFlopsRate = getProductionRate(ResourceType.FLOPS, state.generators, researches);
+  let newHypeRate = getProductionRate(ResourceType.HYPE, state.generators, researches);
 
   let features = state.purchasedFeatures;
   if (entry.research.featureUnlock) {
@@ -305,13 +331,18 @@ const buyResearch = (state: GameState, entry: ResearchStoreEntry): GameState => 
   return {...state, 
     cashTotal: newCash, 
     flopsTotal: newFlops,
+    hypeTotal: newHype,
     totalCashSpent: cashSpent,
+    totalFlopSpent: flopsSpent,
+    totalHypeSpent: hypeSpent,
     purchasedResearch: researches, 
     availableResearch: availableResearch, 
     unlockedGPUs: gpus, 
     unlockedLLMs: llms,
+    unlockedMarketing: marketing,
     cashRate: newCashRate,
     flopsRate: newFlopsRate,
+    hypeRate: newHypeRate,
     purchasedFeatures: features,
   };
 }
@@ -375,6 +406,7 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
 
   const newFlopsRate = getProductionRate(ResourceType.FLOPS, generators, purchasedResearch);
   const newCashRate = getProductionRate(ResourceType.CASH, generators, purchasedResearch);
+  const newHypeRate = getProductionRate(ResourceType.HYPE, generators, purchasedResearch);
   return { 
         ...state, 
         cashTotal: newCash,
@@ -383,6 +415,7 @@ const buyResource = (state: GameState, entry: StoreEntry, count: number): GameSt
         totalFlopSpent: totalFlopSpent,
         cashRate: newCashRate,
         flopsRate: newFlopsRate,
+        hypeRate: newHypeRate,
         generators: generators,
       };
 }

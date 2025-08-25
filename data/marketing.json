@@ -1,0 +1,23 @@
+[
+  {
+    "name": "LINKEDIN_LUNATIC",
+    "description": "LinkedIn is a way of life for these guys, soon to be replaced by AI...",
+    "generatesType": "HYPE",
+    "productionRate": 5,
+    "tags": ["MARKETING"]
+  },
+  {
+    "name": "PODCAST_PROFITEER",
+    "description": "Insert the grift right in their ears",
+    "generatesType": "HYPE",
+    "productionRate": 25,
+    "tags": ["MARKETING"]
+  },
+  {
+    "name": "CREDULOUS_JOURNALIST",
+    "description": "Bough-in without even being paid-for.",
+    "generatesType": "HYPE",
+    "productionRate": 125,
+    "tags": ["MARKETING"]
+  }
+]
